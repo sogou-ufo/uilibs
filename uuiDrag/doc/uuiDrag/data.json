@@ -1,0 +1,156 @@
+{
+    "project": {},
+    "files": {
+        "js/uuiDrag.js": {
+            "name": "js/uuiDrag.js",
+            "modules": {
+                "uuiDrag": 1
+            },
+            "classes": {
+                "$.fn.uuiDrag": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "uuiDrag": {
+            "name": "uuiDrag",
+            "submodules": {},
+            "classes": {
+                "$.fn.uuiDrag": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "js/uuiDrag.js",
+            "line": 8,
+            "description": "组件",
+            "author": "sogou ufo team"
+        }
+    },
+    "classes": {
+        "$.fn.uuiDrag": {
+            "name": "$.fn.uuiDrag",
+            "shortname": "$.fn.uuiDrag",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "uuiDrag",
+            "namespace": "",
+            "file": "js/uuiDrag.js",
+            "line": 8,
+            "description": "实现元素的可拖动功能",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "$this",
+                    "description": "被拖动的元素.",
+                    "type": "JQuery"
+                },
+                {
+                    "name": "options",
+                    "description": "配置.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "range",
+                            "description": "可拖动的范围，默认为document.body.",
+                            "type": "Dom | query"
+                        },
+                        {
+                            "name": "enable",
+                            "description": "是否可拖动.",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "trigger",
+                            "description": "拖动触发元素，默认为$this，如果指定了，trigger必须是dragger的子元素或者子query.",
+                            "type": "Query | dom"
+                        },
+                        {
+                            "name": "dragger",
+                            "description": "拖动元素，默认为$this，如指定了dragger，其必须是$this的子元素或者子query，表示是$this下所有符合dragger条件的元素都可以拖动.",
+                            "type": "Query | dom"
+                        },
+                        {
+                            "name": "dir",
+                            "description": "拖动方向，默认不限定，v水平，h竖直.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "dragEvent",
+                            "description": "触发拖动的事件，默认mousedown.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "dragStart",
+                            "description": "开始拖动.传递参数 (this)实例，可以通过实例.dragger获取当前被拖动的元素",
+                            "type": "Function"
+                        },
+                        {
+                            "name": "dragMove",
+                            "description": "正在拖动.",
+                            "type": "Function"
+                        },
+                        {
+                            "name": "dragEnd",
+                            "description": "拖动结束.",
+                            "type": "Function"
+                        }
+                    ]
+                }
+            ],
+            "example": [
+                " $('.uuiDrag').uuiDrag({enable:0})"
+            ]
+        }
+    },
+    "classitems": [
+        {
+            "file": "js/uuiDrag.js",
+            "line": 64,
+            "description": "存储上次事件发生的位置",
+            "itemtype": "method",
+            "name": "saveLast",
+            "access": "protected",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "Event"
+                }
+            ],
+            "class": "$.fn.uuiDrag",
+            "module": "uuiDrag"
+        },
+        {
+            "file": "js/uuiDrag.js",
+            "line": 109,
+            "description": "更新实例实现，请通过$('.uuiDrag').uuiDrag({xxxx})调用\n\n* @method update\n* @param {Object} options 参数配置,可update参数:range, dir, enable, dragStart, dragEnd, drag,其他参数操作会造成意外\n* @example $('.uuiDrag').uuiDrag().excUUICMD('update', {enable:1 }) = $('.uuiDrag').uuiDrag({enable: 1});",
+            "class": "$.fn.uuiDrag",
+            "module": "uuiDrag"
+        },
+        {
+            "file": "js/uuiDrag.js",
+            "line": 121,
+            "description": "事件发生时候更新被拖动元素位置",
+            "itemtype": "method",
+            "name": "setPos",
+            "access": "protected",
+            "tagname": "",
+            "class": "$.fn.uuiDrag",
+            "module": "uuiDrag"
+        },
+        {
+            "file": "js/uuiDrag.js",
+            "line": 167,
+            "description": "实例内部自我销毁的接口，可以不实现，如未实现，destroy操作会被定为到继承的medestroy上，但是不能销毁和dom的绑定，不建议调用，请使用$('.uuiDrag').uuiDrag({destroy: 1})\n\n* @method destroy\n* @param {Object} options 参数配置\n* @example $('.uuiDrag').uuiDrag().excUUICMD('destroy');",
+            "class": "$.fn.uuiDrag",
+            "module": "uuiDrag"
+        }
+    ]
+}
