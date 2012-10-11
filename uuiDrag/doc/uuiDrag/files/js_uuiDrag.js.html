@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js&#x2F;uuiDrag.js</title>
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.ico">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.5.1&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..&#x2F;assets/css/logo.png" width="100px" height="100px" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="..&#x2F;classes/$.fn.uuiDrag.html">$.fn.uuiDrag</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="..&#x2F;modules/uuiDrag.html">uuiDrag</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: js&#x2F;uuiDrag.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;**
+ * 组件
+
+ * @module uuiDrag
+ * @author sogou ufo team
+ **&#x2F;
+(function($) {
+    &#x2F;**
+     * 实现元素的可拖动功能
+
+     * @class $.fn.uuiDrag
+     * @constructor 拖动
+     * @param {jQuery} $this 被拖动的元素.
+     * @param {Object} options 配置.
+     * @param {dom | query} options.range 可拖动的范围，默认为document.body.
+     * @param {Boolean} options.enable 是否可拖动.
+     * @param {query | dom} options.trigger 拖动触发元素，默认为$this，如果指定了，trigger必须是dragger的子元素或者子query.
+     * @param {query | dom} options.dragger 拖动元素，默认为$this，如指定了dragger，其必须是$this的子元素或者子query，表示是$this下所有符合dragger条件的元素都可以拖动.
+     * @param {String} options.dir 拖动方向，默认不限定，v水平，h竖直.
+     * @param {String} options.dragEvent 触发拖动的事件，默认mousedown.
+     * @param {Function} options.dragStart 开始拖动.传递参数 (this)实例，可以通过实例.dragger获取当前被拖动的元素
+     * @param {function} options.dragMove 正在拖动.
+     * @param {Function} options.dragEnd 拖动结束.
+     * @example $(&#x27;.uuiDrag&#x27;).uuiDrag({enable:0})
+     * *&#x2F;
+    &#x2F;&#x2F; 配置
+    var _options = {
+        enable: true,
+        dragable: false,
+        dir: false,
+        dragEvent: &#x27;mousedown&#x27;,
+        range: null
+    };
+    function uuiDrag($this, options) {
+        var me = this
+            , opt;
+        opt = me.options = $.extend({dragger: $this[0]}, _options);
+        &#x2F;&#x2F; default setting
+        me.update(options || {});
+        &#x2F;&#x2F; start drag
+        if (opt.dragger == opt.trigger) {
+            me.on($this, opt.dragEvent, opt.dragger, function(e) {
+                me.saveLast(e, this);
+            });
+        } else {
+            &#x2F;&#x2F; 指定了触发元素
+            me.on($(opt.dragger), opt.dragEvent, opt.trigger, function(e) {
+                me.saveLast(e, e.delegateTarget);
+            });
+        }
+        &#x2F;&#x2F;$(opt.dragger).addClass(&#x27;uuiDrag-dragger&#x27;);
+        &#x2F;&#x2F; end drag
+        me.on($(document), &#x27;mouseup&#x27;, function(e) {
+            opt.dragable = false;
+            clearInterval(me.timer);
+            $(me.dragger).removeClass(&#x27;uuiDrag-dragger&#x27;);
+            opt.dragEnd &amp;&amp; opt.dragEnd(me);
+            $(document.body).removeClass(&#x27;uuiDrag-main-dragging&#x27;);
+            document.onselectstart = function() {return true};
+        });
+    };
+    &#x2F;&#x2F; 如果不需要，可以删除
+    uuiDrag.prototype = {
+        &#x2F;**
+         * 存储上次事件发生的位置
+         * @method saveLast
+         * @protected
+         * @param {event} e
+         * *&#x2F;
+        saveLast: function(e, dragger) {
+            var me = this
+                , opt = me.options;
+            if(!opt.enable) return;
+            &#x2F;&#x2F; 现在正在拖动的元素
+            me.dragger = dragger;
+            $(me.dragger).addClass(&#x27;uuiDrag-dragger&#x27;);
+            me.lastE = $.UUIBase.getEPos(e);
+            $.UUIBase.empty();
+            &#x2F;&#x2F; 清空选中
+            opt.dragable = true;
+            &#x2F;&#x2F; 计算range，主要是为了支持复杂的drag效果
+            &#x2F;&#x2F; range不是一个设置了left,top,width,height的区间
+            if (opt.range &amp;&amp; !(opt.range.left + 1)) {
+                var range = $(opt.range).offset();
+                range.width = $(opt.range).width() - $(opt.dragger).width();
+                range.height = $(opt.range).height() - $(opt.dragger).height();
+                me.range = range;
+            } else {
+                me.range = opt.range;     
+            }
+            &#x2F;&#x2F; 禁止选中
+            $(document.body).addClass(&#x27;uuiDrag-main-dragging&#x27;);
+            document.onselectstart = function() {return false};
+            &#x2F;&#x2F; 修复chrome不能正确获取到computedstyle bug
+            me.lastPos = $(me.dragger).offset();
+            if(opt.range) {
+                me.lastPos.left = me.lastPos.left - me.range.left;
+                me.lastPos.top = me.lastPos.top - me.range.top;
+            }
+            setTimeout(function() {
+                clearInterval(me.timer);
+                me.timer = setInterval(function() {
+                    me.setPos();    
+                    opt.dragMove &amp;&amp; opt.dragMove(me);
+                }, 16);    
+            }, 1);
+            opt.dragStart &amp;&amp; opt.dragStart(me);
+        },
+        &#x2F;**
+         更新实例实现，请通过$(&#x27;.uuiDrag&#x27;).uuiDrag({xxxx})调用
+
+         * @method update
+         * @param {Object} options 参数配置,可update参数:range, dir, enable, dragStart, dragEnd, drag,其他参数操作会造成意外
+         * @example $(&#x27;.uuiDrag&#x27;).uuiDrag().excUUICMD(&#x27;update&#x27;, {enable:1 }) = $(&#x27;.uuiDrag&#x27;).uuiDrag({enable: 1});
+         * *&#x2F;
+        update: function(options) {
+            var opt = this.options;
+            opt = $.extend(this.options, options);
+            opt.trigger = opt.trigger || opt.dragger;
+        },
+        &#x2F;**
+         * 事件发生时候更新被拖动元素位置
+         *
+         * @method setPos
+         * @protected
+         * *&#x2F;
+        setPos: function() {
+            &#x2F;&#x2F; get the event
+            var me = this
+                , opt = me.options
+                , offset = {}
+                , optffset
+                , tmp = me.lastE;
+            me.lastE = $.UUIBase.getMousePos();
+            tmp = tmp || me.lastPos;
+            &#x2F;&#x2F; 竖直方向可拖动
+            if (opt.dir != &#x27;v&#x27;) {
+                var y = me.lastE.top - tmp.top + me.lastPos.top;
+                if(opt.range) {
+                    if (y &lt; 0) {
+                        y = 0;
+                    } else if (y &gt; me.range.height) {
+                        y = me.range.height;
+                    }
+                }
+                offset.top = y + &#x27;px&#x27;;
+            }
+            &#x2F;&#x2F; 水平防线可拖动
+            if (opt.dir != &#x27;h&#x27;) {
+                var x = me.lastE.left - tmp.left + me.lastPos.left;
+                if(opt.range) {
+                    if (x &lt; 0) {
+                        x = 0;
+                    } else if (x &gt; me.range.width) {
+                        x = me.range.width;
+                    }
+                }
+                offset.left = x + &#x27;px&#x27;;
+            }
+            $(me.dragger).css(offset);
+            me.lastPos = {
+                left: parseInt($(me.dragger).css(&#x27;left&#x27;)) &gt;&gt; 0,
+                top: parseInt($(me.dragger).css(&#x27;top&#x27;)) &gt;&gt; 0
+            };
+            opt.dragEnd &amp;&amp; opt.dragEnd(me);
+        },
+        &#x2F;**
+         实例内部自我销毁的接口，可以不实现，如未实现，destroy操作会被定为到继承的medestroy上，但是不能销毁和dom的绑定，不建议调用，请使用$(&#x27;.uuiDrag&#x27;).uuiDrag({destroy: 1})
+
+         * @method destroy
+         * @param {Object} options 参数配置
+         * @example $(&#x27;.uuiDrag&#x27;).uuiDrag().excUUICMD(&#x27;destroy&#x27;);
+         * *&#x2F;
+        destroy: function(options) {
+            &#x2F;&#x2F; 组件自有的特殊的自我销毁逻辑
+            &#x2F;&#x2F;$(this.options.dragger).removeClass(&#x27;uuiDrag-dragger&#x27;);
+            clearInterval(this.timer)
+        }
+    };
+    $.UUIBase.create(&#x27;uuiDrag&#x27;, uuiDrag);
+    &#x2F;&#x2F; 创建css
+    $($.UUIBase.init);
+})(jQuery);
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="..&#x2F;assets/js/yui-prettify.js"></script>
+<script src="..&#x2F;assets/../api.js"></script>
+<script src="..&#x2F;assets/js/api-filter.js"></script>
+<script src="..&#x2F;assets/js/api-list.js"></script>
+<script src="..&#x2F;assets/js/api-search.js"></script>
+<script src="..&#x2F;assets/js/apidocs.js"></script>
+</body>
+</html>
