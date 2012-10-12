@@ -1,0 +1,14 @@
+.uuiRange-container{
+    position:relative;    
+}
+.uuiRange-par{
+    width:100%;
+    position:absolute;
+    top:0;
+    left:0;
+}
+.uuiRange-ranger,.uuiRange-duration{
+    position:absolute;
+    top:0;
+    left:0;
+}

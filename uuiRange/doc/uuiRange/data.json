@@ -1,0 +1,235 @@
+{
+    "project": {},
+    "files": {
+        "js/uuiRange.js": {
+            "name": "js/uuiRange.js",
+            "modules": {
+                "uuiRange": 1
+            },
+            "classes": {
+                "$.fn.uuiRange": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "uuiRange": {
+            "name": "uuiRange",
+            "submodules": {},
+            "classes": {
+                "$.fn.uuiRange": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "js/uuiRange.js",
+            "line": 8,
+            "description": "组件",
+            "author": "sogou ufo team"
+        }
+    },
+    "classes": {
+        "$.fn.uuiRange": {
+            "name": "$.fn.uuiRange",
+            "shortname": "$.fn.uuiRange",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "uuiRange",
+            "namespace": "",
+            "file": "js/uuiRange.js",
+            "line": 8,
+            "description": "实现html 5的绑定input@type=range，支持多拖动头，rely on uuiDrag",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "配置.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "range",
+                            "description": "起始区间，默认为 0 - 100.",
+                            "type": "Array"
+                        },
+                        {
+                            "name": "duration",
+                            "description": "选中区间或者点，长度为1或者2，默认为[0].",
+                            "type": "Array"
+                        },
+                        {
+                            "name": "container",
+                            "description": "容器，默认为绑定ui组件的元素.",
+                            "type": "String|dom"
+                        },
+                        {
+                            "name": "dir",
+                            "description": "range的防线，v为水平，h为竖直，默认水平.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "enable",
+                            "description": "使可用",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "callback",
+                            "description": "设定值后执行回调,传递参数{Array}选中的range.",
+                            "type": "Function"
+                        }
+                    ]
+                }
+            ],
+            "example": [
+                " $('.uuiRange').uuiRange({enable:0})"
+            ]
+        }
+    },
+    "classitems": [
+        {
+            "file": "js/uuiRange.js",
+            "line": 40,
+            "description": "初始化",
+            "itemtype": "method",
+            "name": "init",
+            "access": "protected",
+            "tagname": "",
+            "class": "$.fn.uuiRange",
+            "module": "uuiRange"
+        },
+        {
+            "file": "js/uuiRange.js",
+            "line": 70,
+            "description": "计算区间，事件绑定缓冲函数",
+            "itemtype": "method",
+            "name": "callback",
+            "access": "protected",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "e",
+                    "description": "事件.",
+                    "type": "Event"
+                },
+                {
+                    "name": "ele",
+                    "description": "事件发生的元素.",
+                    "type": "Dom"
+                }
+            ],
+            "class": "$.fn.uuiRange",
+            "module": "uuiRange"
+        },
+        {
+            "file": "js/uuiRange.js",
+            "line": 85,
+            "description": "设置拖动头的位置",
+            "itemtype": "method",
+            "name": "setPos",
+            "access": "protected",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "ele",
+                    "description": "拖动头.",
+                    "type": "Elements"
+                },
+                {
+                    "name": "v",
+                    "description": "px值.",
+                    "type": "Number"
+                }
+            ],
+            "class": "$.fn.uuiRange",
+            "module": "uuiRange"
+        },
+        {
+            "file": "js/uuiRange.js",
+            "line": 100,
+            "description": "更新duration样式，并执行回调",
+            "itemtype": "method",
+            "name": "updataDuration",
+            "access": "protected",
+            "tagname": "",
+            "class": "$.fn.uuiRange",
+            "module": "uuiRange"
+        },
+        {
+            "file": "js/uuiRange.js",
+            "line": 121,
+            "description": "设置区间值",
+            "itemtype": "method",
+            "name": "setValue",
+            "access": "protected",
+            "tagname": "",
+            "class": "$.fn.uuiRange",
+            "module": "uuiRange"
+        },
+        {
+            "file": "js/uuiRange.js",
+            "line": 150,
+            "description": "获取点击事件的位置",
+            "itemtype": "method",
+            "name": "getPos",
+            "access": "protected",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "e",
+                    "description": "事件.",
+                    "type": "Event"
+                }
+            ],
+            "class": "$.fn.uuiRange",
+            "module": "uuiRange"
+        },
+        {
+            "file": "js/uuiRange.js",
+            "line": 167,
+            "description": "计算父容器和拖动头的宽度，并进行转换",
+            "itemtype": "method",
+            "name": "exchangeRate",
+            "access": "protected",
+            "tagname": "",
+            "class": "$.fn.uuiRange",
+            "module": "uuiRange"
+        },
+        {
+            "file": "js/uuiRange.js",
+            "line": 181,
+            "description": "获取选中区间，并转换为range内的有效值",
+            "itemtype": "method",
+            "name": "getDuration",
+            "access": "protected",
+            "tagname": "",
+            "return": {
+                "description": "选中的区间值.",
+                "type": "Array"
+            },
+            "class": "$.fn.uuiRange",
+            "module": "uuiRange"
+        },
+        {
+            "file": "js/uuiRange.js",
+            "line": 198,
+            "description": "更新实例实现，请通过$('.uuiRange').uuiRange({xxxx})调用",
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "参数配置，可以update参数dir, range, duration, callback.",
+                    "type": "Object"
+                }
+            ],
+            "example": [
+                " $('.uuiRange').uuiRange().excUUICMD('update', {enable:1 }) = $('.uuiRange').uuiRange({enable: 1});"
+            ],
+            "class": "$.fn.uuiRange",
+            "module": "uuiRange"
+        }
+    ]
+}

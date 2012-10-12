@@ -10,7 +10,7 @@
 
      * @class $.fn.uuiDrag
      * @constructor 拖动
-     * @param {jQuery} $this 被拖动的元素.
+     * @param {jQuery} $this 绑定拖动的元素，默认会成为被拖动的元素.
      * @param {Object} options 配置.
      * @param {dom | query} options.range 可拖动的范围，默认为document.body.
      * @param {Boolean} options.enable 是否可拖动.
@@ -75,8 +75,8 @@
             me.dragger = dragger;
             $(me.dragger).addClass('uuiDrag-dragger');
             me.lastE = $.UUIBase.getEPos(e);
-            $.UUIBase.empty();
             // 清空选中
+            $.UUIBase.empty();
             opt.dragable = true;
             // 计算range，主要是为了支持复杂的drag效果
             // range不是一个设置了left,top,width,height的区间
@@ -137,6 +137,7 @@
             tmp = tmp || me.lastPos;
             // 竖直方向可拖动
             if (opt.dir != 'h') {
+                // 如果限定了拖动范围，鼠标超出范围会将元素拖动到边界线上，在鼠标的位置为达到拖动元素的中间位置，不再响应拖动【竖直方向】
                 if(me.range && (me.lastE.top < me.range.top + me.lastPos.height / 2 && me.lastPos.top == 0 || (me.lastE.top > me.range.top + me.range.height + me.lastPos.height / 2 && me.lastPos.top == me.range.height))) {
                 } else {
                     var y = me.lastE.top - tmp.top + me.lastPos.top;
@@ -153,6 +154,7 @@
 
             // 水平防线可拖动
             if (opt.dir != 'v') {
+                // 如果限定了拖动范围，鼠标超出范围会将元素拖动到边界线上，在鼠标的位置为达到拖动元素的中间位置，不再响应拖动【水平方向】
                 if(me.range && (me.lastE.left < me.range.left + me.lastPos.width / 2 && me.lastPos.left == 0 || (me.lastE.left > me.range.left + me.range.width + me.lastPos.width / 2 && me.lastPos.left == me.range.width))) {
                 } else {
                     var x = me.lastE.left - tmp.left + me.lastPos.left;
