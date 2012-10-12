@@ -57,7 +57,7 @@
                         },
                         {
                             "name": "duration",
-                            "description": "选中区间或者点，长度为1或者2，默认为[0].",
+                            "description": "选中区间或者点，长度为1或者2，默认为[0]，取值区间应该在range指定的范围内.",
                             "type": "Array"
                         },
                         {
@@ -67,7 +67,7 @@
                         },
                         {
                             "name": "dir",
-                            "description": "range的防线，v为水平，h为竖直，默认水平.",
+                            "description": "range的防线，h为水平，v为竖直，默认水平.",
                             "type": "String"
                         },
                         {
@@ -103,9 +103,9 @@
         {
             "file": "js/uuiRange.js",
             "line": 70,
-            "description": "计算区间，事件绑定缓冲函数",
+            "description": "点击的时候响应，如果是多个拖动头，则移动距离时间最近的拖动头",
             "itemtype": "method",
-            "name": "callback",
+            "name": "onclickSet",
             "access": "protected",
             "tagname": "",
             "params": [
@@ -113,11 +113,6 @@
                     "name": "e",
                     "description": "事件.",
                     "type": "Event"
-                },
-                {
-                    "name": "ele",
-                    "description": "事件发生的元素.",
-                    "type": "Dom"
                 }
             ],
             "class": "$.fn.uuiRange",
@@ -125,10 +120,10 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 85,
+            "line": 92,
             "description": "设置拖动头的位置",
             "itemtype": "method",
-            "name": "setPos",
+            "name": "setDraggerPos",
             "access": "protected",
             "tagname": "",
             "params": [
@@ -148,7 +143,7 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 100,
+            "line": 107,
             "description": "更新duration样式，并执行回调",
             "itemtype": "method",
             "name": "updataDuration",
@@ -159,10 +154,10 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 121,
-            "description": "设置区间值",
+            "line": 128,
+            "description": "设置区间值，更新拖动头位置",
             "itemtype": "method",
-            "name": "setValue",
+            "name": "setRangeValue",
             "access": "protected",
             "tagname": "",
             "class": "$.fn.uuiRange",
@@ -170,7 +165,7 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 150,
+            "line": 157,
             "description": "获取点击事件的位置",
             "itemtype": "method",
             "name": "getPos",
@@ -188,7 +183,7 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 167,
+            "line": 174,
             "description": "计算父容器和拖动头的宽度，并进行转换",
             "itemtype": "method",
             "name": "exchangeRate",
@@ -199,7 +194,7 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 181,
+            "line": 188,
             "description": "获取选中区间，并转换为range内的有效值",
             "itemtype": "method",
             "name": "getDuration",
@@ -214,7 +209,7 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 198,
+            "line": 205,
             "description": "更新实例实现，请通过$('.uuiRange').uuiRange({xxxx})调用",
             "itemtype": "method",
             "name": "update",

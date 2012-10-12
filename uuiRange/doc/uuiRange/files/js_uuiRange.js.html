@@ -102,28 +102,28 @@
      @constructor
      @param {Object} options 配置.
      @param {Array} options.range 起始区间，默认为 0 - 100.
-     @param {Array} options.duration 选中区间或者点，长度为1或者2，默认为[0].
+     @param {Array} options.duration 选中区间或者点，长度为1或者2，默认为[0]，取值区间应该在range指定的范围内.
      @param {String|dom} options.container 容器，默认为绑定ui组件的元素.
-     @param {String} options.dir range的防线，v为水平，h为竖直，默认水平.
+     @param {String} options.dir range的防线，h为水平，v为竖直，默认水平.
      @param {Boolean} options.enable 使可用
      @param {Function} options.callback 设定值后执行回调,传递参数{Array}选中的range.
      @example $(&#x27;.uuiRange&#x27;).uuiRange({enable:0})
      * *&#x2F;
     function uuiRange($this, options) {
-        var _ = this, _o;
+        var me = this, opt;
         &#x2F;&#x2F; default setting
-        _o = _.options = {
+        opt = me.options = {
             range: [0, 100],
-            dir: &#x27;v&#x27;,
+            dir: &#x27;h&#x27;,
             duration: [0],
             classPrefix: &#x27;uuiRange&#x27;,
             container: $this[0]
         };
-        _.update(options || {});
-        _.rangerHTML = &#x27;&lt;i style=&quot;position:absolute;&quot; class=&quot;&#x27; + _o.classPrefix + &#x27;-ranger&quot;&gt;&lt;&#x2F;i&gt;&#x27;;
-        _.durationHTML = &#x27;&lt;div class=&quot;&#x27; + _o.classPrefix + &#x27;-duration&quot;&gt;&lt;&#x2F;div&gt;&#x27;;
-        _.rangerParHTML = &#x27;&lt;div class=&quot;&#x27; + _o.classPrefix + &#x27;-par&quot;&gt;&lt;&#x2F;div&gt;&#x27;;
-        _.init();
+        me.update(options || {});
+        me.rangerHTML = &#x27;&lt;i style=&quot;position:absolute;&quot; class=&quot;&#x27; + opt.classPrefix + &#x27;-ranger&quot;&gt;&lt;&#x2F;i&gt;&#x27;;
+        me.durationHTML = &#x27;&lt;div class=&quot;&#x27; + opt.classPrefix + &#x27;-duration&quot;&gt;&lt;&#x2F;div&gt;&#x27;;
+        me.rangerParHTML = &#x27;&lt;div class=&quot;&#x27; + opt.classPrefix + &#x27;-par&quot;&gt;&lt;&#x2F;div&gt;&#x27;;
+        me.init();
     };
     &#x2F;&#x2F; 如果不需要，可以删除
     uuiRange.prototype = {
@@ -134,54 +134,61 @@
          * @protected
          * *&#x2F;
         init: function() {
-            var _ = this
-                , _o = _.options;
-            _.rangeContainer = document.createElement(&#x27;div&#x27;);
-            _.rangeContainer.className = _o.classPrefix + &#x27;-container&#x27;;
+            var me = this
+                , opt = me.options;
+            me.rangeContainer = document.createElement(&#x27;div&#x27;);
+            me.rangeContainer.className = opt.classPrefix + &#x27;-container&#x27;;
             var html = &#x27;&#x27;;
-            html += _.durationHTML;
-            html += _.rangerParHTML;
-            for (var i = 0, len = Math.min(_o.duration.length, 2); i &lt; len; i++) {
-                html += _.rangerHTML;
+            html += me.durationHTML;
+            html += me.rangerParHTML;
+            for (var i = 0, len = Math.min(opt.duration.length, 2); i &lt; len; i++) {
+                html += me.rangerHTML;
             }
-            $(_o.container).append(_.rangeContainer);
-            _.rangeContainer.innerHTML = html;
-            _.ranger = $(_.rangeContainer).children(&#x27;i&#x27;);
+            $(opt.container).append(me.rangeContainer);
+            me.rangeContainer.innerHTML = html;
+            me.ranger = $(me.rangeContainer).children(&#x27;i&#x27;);
             &#x2F;&#x2F; 当只有一个拖动头的时候支持click事件
-            if (_o.duration.length == 1) {
-                _.on($(_.rangeContainer).children(&#x27;.&#x27; + _o.classPrefix + &#x27;-par&#x27;), &#x27;click&#x27;, function(e) {
-                    if (_o.enable) {
-                        _.callback(e, _.ranger[0]);
+            if (opt.duration.length) {
+                me.on($(me.rangeContainer).children(&#x27;.&#x27; + opt.classPrefix + &#x27;-par&#x27;), &#x27;click&#x27;, function(e) {
+                    if (opt.enable) {
+                        me.onclickSet(e);
                     }
                 });
             }
-            _.setValue();
+            me.setRangeValue();
         },
         &#x2F;**
-         * 计算区间，事件绑定缓冲函数
+         * 点击的时候响应，如果是多个拖动头，则移动距离时间最近的拖动头
          *
-         * @method callback
+         * @method onclickSet
          * @protected
          * @param {event} e 事件.
-         * @param {dom} ele 事件发生的元素.
          * *&#x2F;
-        callback: function(e,ele) {
-            var _ = this
-                , _o = _.options
-                , v = _.getPos(e);
-            _.setPos(ele, v);
-            _.updataDuration();
+        onclickSet: function(e) {
+            var me = this
+                , opt = me.options
+                , v = me.getPos(e)
+                , ele
+                , dir = opt.dir == &#x27;v&#x27; ? &#x27;top&#x27; : &#x27;left&#x27;;
+            &#x2F;&#x2F; 获取距离事件最近的拖动头
+            $.each(me.ranger, function(i, ranger) {
+                if((!ele) || Math.abs((parseInt(ele.style[dir]) &gt;&gt; 0) - v) &gt; Math.abs((parseInt(ranger.style[dir]) &gt;&gt; 0) - v)) {
+                    ele = ranger;    
+                }
+            });
+            me.setDraggerPos(ele, v);
+            me.updataDuration();
         },
         &#x2F;**
          * 设置拖动头的位置
          *
-         * @method setPos
+         * @method setDraggerPos
          * @protected
          * @param {elements} ele 拖动头.
          * @param {Number} v px值.
          * *&#x2F;
-        setPos: function(ele, v) {
-            if (this.options.dir == &#x27;h&#x27;) {
+        setDraggerPos: function(ele, v) {
+            if (this.options.dir == &#x27;v&#x27;) {
                 ele.style.top = v + &#x27;px&#x27;;
             } else {
                 ele.style.left = v + &#x27;px&#x27;;
@@ -194,48 +201,48 @@
          * @protected
          * *&#x2F;
         updataDuration: function() {
-            var _ = this
-                , _o = _.options
+            var me = this
+                , opt = me.options
                 , css
                 , arr = [];
-            $.each(_.ranger, function(i, item) {
-                var v = _o.dir == &#x27;h&#x27; ? parseInt(item.style.top) &gt;&gt; 0 : parseInt(item.style.left) &gt;&gt; 0;
+            $.each(me.ranger, function(i, item) {
+                var v = opt.dir == &#x27;v&#x27; ? parseInt(item.style.top) &gt;&gt; 0 : parseInt(item.style.left) &gt;&gt; 0;
                 arr.push(v);
             });
             arr[1] = arr[1] || 0;
             arr = arr.sort(function(a, b) { return a - b});
-            css = _o.dir == &#x27;h&#x27; ? {top: arr[0] + &#x27;px&#x27;, height: arr[1] - arr[0] + &#x27;px&#x27;} : {left: arr[0] + &#x27;px&#x27;, width: arr[1] - arr[0] + &#x27;px&#x27;};
-            $(_.rangeContainer).children(&#x27;.&#x27; + _o.classPrefix + &#x27;-&#x27; + &#x27;duration&#x27;).css(css);
-            _o.callback &amp;&amp; _o.callback(_.getDuration());
+            css = opt.dir == &#x27;v&#x27; ? {top: arr[0] + &#x27;px&#x27;, height: arr[1] - arr[0] + &#x27;px&#x27;} : {left: arr[0] + &#x27;px&#x27;, width: arr[1] - arr[0] + &#x27;px&#x27;};
+            $(me.rangeContainer).children(&#x27;.&#x27; + opt.classPrefix + &#x27;-&#x27; + &#x27;duration&#x27;).css(css);
+            opt.callback &amp;&amp; opt.callback(me.getDuration());
         },
         &#x2F;**
-         * 设置区间值
+         * 设置区间值，更新拖动头位置
          *
-         * @method setValue
+         * @method setRangeValue
          * @protected
          * *&#x2F;
-        setValue: function() {
-            var _ = this
-                , _o = _.options
-                , total = _o.range[1] - _o.range[0];
-            $.each(_.ranger, function(i,item) {
-                _.exchangeRate();
-                var v = (_o.duration[i] - _o.range[0]) &#x2F; total * (_.cw - _.rw * 2);
-                _.setPos(item, v);
+        setRangeValue: function() {
+            var me = this
+                , opt = me.options
+                , total = opt.range[1] - opt.range[0];
+            $.each(me.ranger, function(i, item) {
+                me.exchangeRate();
+                var v = (opt.duration[i] - opt.range[0]) &#x2F; total * (me.cw - me.rw * 2);
+                me.setDraggerPos(item, v);
             });
-            $(_.rangeContainer).uuiDrag({
-                dir: _o.dir,
-                dragger: &#x27;.&#x27; + _o.classPrefix + &#x27;-ranger&#x27;,
-                enable: _o.enable,
+            $(me.rangeContainer).uuiDrag({
+                dir: opt.dir,
+                dragger: &#x27;.&#x27; + opt.classPrefix + &#x27;-ranger&#x27;,
+                enable: opt.enable,
                 dragMove: function() {
-                    _.updataDuration();
+                    me.updataDuration();
                 },
                 dragEnd: function() {
-                    _.updataDuration();
+                    me.updataDuration();
                 },
-                range: _o.container
+                range: opt.container
             });
-            _.updataDuration();
+            me.updataDuration();
         },
         &#x2F;**
          * 获取点击事件的位置
@@ -245,13 +252,13 @@
          * @param {event} e 事件.
          * *&#x2F;
         getPos: function(e) {
-            var _ = this
-                , _o = _.options
-                , dir = _o.dir;
-                _.exchangeRate();
-            ep = dir == &#x27;h&#x27; ? $.UUIBase.getEPos(e).top - _.co.top - _.rw : $.UUIBase.getEPos(e).left - _.co.left - _.rw;
+            var me = this
+                , opt = me.options
+                , dir = opt.dir;
+                me.exchangeRate();
+            ep = dir == &#x27;v&#x27; ? $.UUIBase.getEPos(e).top - me.co.top - me.rw : $.UUIBase.getEPos(e).left - me.co.left - me.rw;
             if (ep &lt; 0) ep = 0;
-            if (ep &gt; _.cw - _.rw * 2) ep = _.cw - _.rw * 2;
+            if (ep &gt; me.cw - me.rw * 2) ep = me.cw - me.rw * 2;
             return ep;
         },
         &#x2F;**
@@ -261,12 +268,12 @@
          * @protected
          * *&#x2F;
         exchangeRate: function() {
-            var _ = this
-                , _o = _.options
-                , dir = _o.dir;
-            _.co = $(_.rangeContainer).offset();
-            _.cw = dir == &#x27;h&#x27; ? $(_.rangeContainer).height() : $(_.rangeContainer).width();
-            _.rw = dir == &#x27;h&#x27; ? _.ranger.height() &#x2F; 2 : _.ranger.width() &#x2F; 2;
+            var me = this
+                , opt = me.options
+                , dir = opt.dir;
+            me.co = $(me.rangeContainer).offset();
+            me.cw = dir == &#x27;v&#x27; ? $(me.rangeContainer).height() : $(me.rangeContainer).width();
+            me.rw = dir == &#x27;v&#x27; ? me.ranger.height() &#x2F; 2 : me.ranger.width() &#x2F; 2;
         },
         &#x2F;**
          * 获取选中区间，并转换为range内的有效值
@@ -276,14 +283,14 @@
          * @return {Array} 选中的区间值.
          * *&#x2F;
         getDuration: function() {
-            var _ = this
-                , _o = _.options;
-            _o.duration = [];
-            $.each(_.ranger, function(i, item) {
-                var v = (_o.dir == &#x27;h&#x27; ? parseInt(item.style.top) &gt;&gt; 0 : parseInt(item.style.left) &gt;&gt; 0) &#x2F; (_.cw - _.rw * 2) * (_o.range[1] - _o.range[0]) + _o.range[0];
-                _o.duration.push(v);
+            var me = this
+                , opt = me.options;
+            opt.duration = [];
+            $.each(me.ranger, function(i, item) {
+                var v = (opt.dir == &#x27;v&#x27; ? parseInt(item.style.top) &gt;&gt; 0 : parseInt(item.style.left) &gt;&gt; 0) &#x2F; (me.cw - me.rw * 2) * (opt.range[1] - opt.range[0]) + opt.range[0];
+                opt.duration.push(v);
             });
-            return _o.duration.sort(function(a, b) {return a - b});
+            return opt.duration.sort(function(a, b) {return a - b});
         },
         &#x2F;**
          更新实例实现，请通过$(&#x27;.uuiRange&#x27;).uuiRange({xxxx})调用
@@ -296,7 +303,7 @@
             this.options = $.extend(this.options, options);
             this.options.range = this.options.range.sort(function(a, b) {return a - b});
             this.options.duration = this.options.duration.sort(function(a, b) {return a - b});
-            this.ranger &amp;&amp; this.setValue();
+            this.ranger &amp;&amp; this.setRangeValue();
         }
         &#x2F;*
         \&#x2F;**
