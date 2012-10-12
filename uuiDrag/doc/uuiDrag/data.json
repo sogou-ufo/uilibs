@@ -47,7 +47,7 @@
             "params": [
                 {
                     "name": "$this",
-                    "description": "被拖动的元素.",
+                    "description": "绑定拖动的元素，默认会成为被拖动的元素.",
                     "type": "JQuery"
                 },
                 {
@@ -76,8 +76,8 @@
                             "type": "Query | dom"
                         },
                         {
-                            "name": "dir",
-                            "description": "拖动方向，默认不限定，v水平，h竖直.",
+                            "name": "direction",
+                            "description": "拖动方向，默认不限定，h水平，v竖直.",
                             "type": "String"
                         },
                         {
@@ -111,7 +111,7 @@
     "classitems": [
         {
             "file": "js/uuiDrag.js",
-            "line": 64,
+            "line": 62,
             "description": "存储上次事件发生的位置",
             "itemtype": "method",
             "name": "saveLast",
@@ -130,7 +130,19 @@
         {
             "file": "js/uuiDrag.js",
             "line": 109,
-            "description": "更新实例实现，请通过$('.uuiDrag').uuiDrag({xxxx})调用\n\n* @method update\n* @param {Object} options 参数配置,可update参数:range, dir, enable, dragStart, dragEnd, drag,其他参数操作会造成意外\n* @example $('.uuiDrag').uuiDrag().excUUICMD('update', {enable:1 }) = $('.uuiDrag').uuiDrag({enable: 1});",
+            "description": "更新实例实现，请通过$('.uuiDrag').uuiDrag({xxxx})调用",
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "参数配置,可update参数:range, direction, enable, dragStart, dragEnd, drag,其他参数操作会造成意外",
+                    "type": "Object"
+                }
+            ],
+            "example": [
+                " $('.uuiDrag').uuiDrag().excUUICMD('update', {enable:1 }) = $('.uuiDrag').uuiDrag({enable: 1});"
+            ],
             "class": "$.fn.uuiDrag",
             "module": "uuiDrag"
         },
@@ -147,8 +159,20 @@
         },
         {
             "file": "js/uuiDrag.js",
-            "line": 167,
-            "description": "实例内部自我销毁的接口，可以不实现，如未实现，destroy操作会被定为到继承的medestroy上，但是不能销毁和dom的绑定，不建议调用，请使用$('.uuiDrag').uuiDrag({destroy: 1})\n\n* @method destroy\n* @param {Object} options 参数配置\n* @example $('.uuiDrag').uuiDrag().excUUICMD('destroy');",
+            "line": 174,
+            "description": "实例内部自我销毁的接口，可以不实现，如未实现，destroy操作会被定为到继承的medestroy上，但是不能销毁和dom的绑定，不建议调用，请使用$('.uuiDrag').uuiDrag({destroy: 1})",
+            "itemtype": "method",
+            "name": "destroy",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "参数配置",
+                    "type": "Object"
+                }
+            ],
+            "example": [
+                " $('.uuiDrag').uuiDrag().excUUICMD('destroy');"
+            ],
             "class": "$.fn.uuiDrag",
             "module": "uuiDrag"
         }

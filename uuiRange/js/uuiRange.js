@@ -14,7 +14,7 @@
      @param {Array} options.range 起始区间，默认为 0 - 100.
      @param {Array} options.duration 选中区间或者点，长度为1或者2，默认为[0]，取值区间应该在range指定的范围内.
      @param {String|dom} options.container 容器，默认为绑定ui组件的元素.
-     @param {String} options.dir range的防线，h为水平，v为竖直，默认水平.
+     @param {String} options.direction range的防线，h为水平，v为竖直，默认水平.
      @param {Boolean} options.enable 使可用
      @param {Function} options.callback 设定值后执行回调,传递参数{Array}选中的range.
      @example $('.uuiRange').uuiRange({enable:0})
@@ -24,7 +24,7 @@
         // default setting
         opt = me.options = {
             range: [0, 100],
-            dir: 'h',
+            direction: 'h',
             duration: [0],
             classPrefix: 'uuiRange',
             container: $this[0]
@@ -79,10 +79,10 @@
                 , opt = me.options
                 , v = me.getPos(e)
                 , ele
-                , dir = opt.dir == 'v' ? 'top' : 'left';
+                , direction = opt.direction == 'v' ? 'top' : 'left';
             // 获取距离事件最近的拖动头
             $.each(me.ranger, function(i, ranger) {
-                if((!ele) || Math.abs((parseInt(ele.style[dir]) >> 0) - v) > Math.abs((parseInt(ranger.style[dir]) >> 0) - v)) {
+                if((!ele) || Math.abs((parseInt(ele.style[direction]) >> 0) - v) > Math.abs((parseInt(ranger.style[direction]) >> 0) - v)) {
                     ele = ranger;    
                 }
             });
@@ -98,7 +98,7 @@
          * @param {Number} v px值.
          * */
         setDraggerPos: function(ele, v) {
-            if (this.options.dir == 'v') {
+            if (this.options.direction == 'v') {
                 ele.style.top = v + 'px';
             } else {
                 ele.style.left = v + 'px';
@@ -116,12 +116,12 @@
                 , css
                 , arr = [];
             $.each(me.ranger, function(i, item) {
-                var v = opt.dir == 'v' ? parseInt(item.style.top) >> 0 : parseInt(item.style.left) >> 0;
+                var v = opt.direction == 'v' ? parseInt(item.style.top) >> 0 : parseInt(item.style.left) >> 0;
                 arr.push(v);
             });
             arr[1] = arr[1] || 0;
             arr = arr.sort(function(a, b) { return a - b});
-            css = opt.dir == 'v' ? {top: arr[0] + 'px', height: arr[1] - arr[0] + 'px'} : {left: arr[0] + 'px', width: arr[1] - arr[0] + 'px'};
+            css = opt.direction == 'v' ? {top: arr[0] + 'px', height: arr[1] - arr[0] + 'px'} : {left: arr[0] + 'px', width: arr[1] - arr[0] + 'px'};
             $(me.rangeContainer).children('.' + opt.classPrefix + '-' + 'duration').css(css);
             opt.callback && opt.callback(me.getDuration());
         },
@@ -141,7 +141,7 @@
                 me.setDraggerPos(item, v);
             });
             $(me.rangeContainer).uuiDrag({
-                dir: opt.dir,
+                direction: opt.direction,
                 dragger: '.' + opt.classPrefix + '-ranger',
                 enable: opt.enable,
                 dragMove: function() {
@@ -164,9 +164,9 @@
         getPos: function(e) {
             var me = this
                 , opt = me.options
-                , dir = opt.dir;
+                , direction = opt.direction;
                 me.exchangeRate();
-            ep = dir == 'v' ? $.UUIBase.getEPos(e).top - me.co.top - me.rw : $.UUIBase.getEPos(e).left - me.co.left - me.rw;
+            ep = direction == 'v' ? $.UUIBase.getEPos(e).top - me.co.top - me.rw : $.UUIBase.getEPos(e).left - me.co.left - me.rw;
             if (ep < 0) ep = 0;
             if (ep > me.cw - me.rw * 2) ep = me.cw - me.rw * 2;
             return ep;
@@ -180,10 +180,10 @@
         exchangeRate: function() {
             var me = this
                 , opt = me.options
-                , dir = opt.dir;
+                , direction = opt.direction;
             me.co = $(me.rangeContainer).offset();
-            me.cw = dir == 'v' ? $(me.rangeContainer).height() : $(me.rangeContainer).width();
-            me.rw = dir == 'v' ? me.ranger.height() / 2 : me.ranger.width() / 2;
+            me.cw = direction == 'v' ? $(me.rangeContainer).height() : $(me.rangeContainer).width();
+            me.rw = direction == 'v' ? me.ranger.height() / 2 : me.ranger.width() / 2;
         },
         /**
          * 获取选中区间，并转换为range内的有效值
@@ -197,7 +197,7 @@
                 , opt = me.options;
             opt.duration = [];
             $.each(me.ranger, function(i, item) {
-                var v = (opt.dir == 'v' ? parseInt(item.style.top) >> 0 : parseInt(item.style.left) >> 0) / (me.cw - me.rw * 2) * (opt.range[1] - opt.range[0]) + opt.range[0];
+                var v = (opt.direction == 'v' ? parseInt(item.style.top) >> 0 : parseInt(item.style.left) >> 0) / (me.cw - me.rw * 2) * (opt.range[1] - opt.range[0]) + opt.range[0];
                 opt.duration.push(v);
             });
             return opt.duration.sort(function(a, b) {return a - b});
@@ -206,7 +206,7 @@
          更新实例实现，请通过$('.uuiRange').uuiRange({xxxx})调用
 
          @method update
-         @param {Object} options 参数配置，可以update参数dir, range, duration, callback.
+         @param {Object} options 参数配置，可以update参数direction, range, duration, callback.
          @example $('.uuiRange').uuiRange().excUUICMD('update', {enable:1 }) = $('.uuiRange').uuiRange({enable: 1});
          * */
         update: function(options) {

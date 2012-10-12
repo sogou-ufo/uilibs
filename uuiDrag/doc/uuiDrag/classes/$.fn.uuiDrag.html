@@ -191,7 +191,7 @@
                     
 
                     <div class="param-description">
-                        <p>被拖动的元素.</p>
+                        <p>绑定拖动的元素，默认会成为被拖动的元素.</p>
                     </div>
 
                     
@@ -266,12 +266,12 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name">dir</code>
+                                    <code class="param-name">direction</code>
                                     <span class="type">String</span>
                                 
 
                                 <div class="param-description">
-                                    <p>拖动方向，默认不限定，v水平，h竖直.</p>
+                                    <p>拖动方向，默认不限定，h水平，v竖直.</p>
                                 </div>
 
                                 
@@ -375,6 +375,13 @@
 
                     <ul class="index-list methods">
                         
+                            <li class="index-item method">
+                                <a href="#method_destroy">destroy</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method protected">
                                 <a href="#method_saveLast">saveLast</a>
 
@@ -384,6 +391,13 @@
                         
                             <li class="index-item method protected">
                                 <a href="#method_setPos">setPos</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_update">update</a>
 
                                 
                                 
@@ -403,6 +417,101 @@
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_destroy" class="method item">
+    <h3 class="name"><code>destroy</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>options</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;js_uuiDrag.js.html#l174"><code>js&#x2F;uuiDrag.js:174</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>实例内部自我销毁的接口，可以不实现，如未实现，destroy操作会被定为到继承的medestroy上，但是不能销毁和dom的绑定，不建议调用，请使用$('.uuiDrag').uuiDrag({destroy: 1})</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">options</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>参数配置</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <p>$('.uuiDrag').uuiDrag().excUUICMD('destroy');</p>
+            </div>
+        </div>
+    
+</div>
 
                 
                     <div id="method_saveLast" class="method item protected">
@@ -449,7 +558,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;js_uuiDrag.js.html#l64"><code>js&#x2F;uuiDrag.js:64</code></a>
+        <a href="..&#x2F;files&#x2F;js_uuiDrag.js.html#l62"><code>js&#x2F;uuiDrag.js:62</code></a>
         
         </p>
 
@@ -546,6 +655,101 @@
 
     
 
+    
+</div>
+
+                
+                    <div id="method_update" class="method item">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>options</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;js_uuiDrag.js.html#l109"><code>js&#x2F;uuiDrag.js:109</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>更新实例实现，请通过$('.uuiDrag').uuiDrag({xxxx})调用</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">options</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>参数配置,可update参数:range, direction, enable, dragStart, dragEnd, drag,其他参数操作会造成意外</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <p>$('.uuiDrag').uuiDrag().excUUICMD('update', {enable:1 }) = $('.uuiDrag').uuiDrag({enable: 1});</p>
+            </div>
+        </div>
     
 </div>
 
