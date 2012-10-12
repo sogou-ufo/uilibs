@@ -124,7 +124,7 @@
             <p>test code here:</p>
             <textarea id="code" style="width:600px;height:400px;">
             $('#uuiRangeBox').uuiRange({
-                dir: 'v',
+                direction: 'v',
                 callback: function(duration){
                     $('#t2').html(duration.join('-'))
                 },

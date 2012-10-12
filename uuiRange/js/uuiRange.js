@@ -137,7 +137,7 @@
                 , total = opt.range[1] - opt.range[0];
             $.each(me.ranger, function(i, item) {
                 me.exchangeRate();
-                var v = (opt.duration[i] - opt.range[0]) / total * (me.cw - me.rw * 2);
+                var v = (opt.duration[i] - opt.range[0]) / total * (me.containerWidth - me.rangerWidth * 2);
                 me.setDraggerPos(item, v);
             });
             $(me.rangeContainer).uuiDrag({
@@ -166,10 +166,10 @@
                 , opt = me.options
                 , direction = opt.direction;
                 me.exchangeRate();
-            ep = direction == 'v' ? $.UUIBase.getEPos(e).top - me.co.top - me.rw : $.UUIBase.getEPos(e).left - me.co.left - me.rw;
-            if (ep < 0) ep = 0;
-            if (ep > me.cw - me.rw * 2) ep = me.cw - me.rw * 2;
-            return ep;
+            epos = direction == 'v' ? $.UUIBase.getEPos(e).top - me.containerOffset.top - me.rangerWidth : $.UUIBase.getEPos(e).left - me.containerOffset.left - me.rangerWidth;
+            if (epos < 0) ep = 0;
+            if (epos > me.containerWidth - me.rangerWidth * 2) epos = me.containerWidth - me.rangerWidth * 2;
+            return epos;
         },
         /**
          * 计算父容器和拖动头的宽度，并进行转换
@@ -181,9 +181,9 @@
             var me = this
                 , opt = me.options
                 , direction = opt.direction;
-            me.co = $(me.rangeContainer).offset();
-            me.cw = direction == 'v' ? $(me.rangeContainer).height() : $(me.rangeContainer).width();
-            me.rw = direction == 'v' ? me.ranger.height() / 2 : me.ranger.width() / 2;
+            me.containerOffset = $(me.rangeContainer).offset();
+            me.containerWidth = direction == 'v' ? $(me.rangeContainer).height() : $(me.rangeContainer).width();
+            me.rangerWidth = direction == 'v' ? me.ranger.height() / 2 : me.ranger.width() / 2;
         },
         /**
          * 获取选中区间，并转换为range内的有效值
@@ -197,7 +197,7 @@
                 , opt = me.options;
             opt.duration = [];
             $.each(me.ranger, function(i, item) {
-                var v = (opt.direction == 'v' ? parseInt(item.style.top) >> 0 : parseInt(item.style.left) >> 0) / (me.cw - me.rw * 2) * (opt.range[1] - opt.range[0]) + opt.range[0];
+                var v = (opt.direction == 'v' ? parseInt(item.style.top) >> 0 : parseInt(item.style.left) >> 0) / ((me.containerWidth - me.rangerWidth * 2) || 1) * (opt.range[1] - opt.range[0]) + opt.range[0];
                 opt.duration.push(v);
             });
             return opt.duration.sort(function(a, b) {return a - b});
