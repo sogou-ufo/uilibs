@@ -102,7 +102,7 @@
                 me.timer = setInterval(function() {
                     me.setPos();    
                     opt.dragMove && opt.dragMove(me);
-                }, 16);    
+                }, 10);    
             }, 1);
             opt.dragStart && opt.dragStart(me);
         },
@@ -147,6 +147,8 @@
                         }
                     }
                     offset.top = y + 'px';
+                    // 防止由于居中样式等造成拖动位置不对
+                    offset['margin-top'] = 0;
                 }
             }
 
@@ -164,6 +166,8 @@
                         }
                     }
                     offset.left = x + 'px';
+                    // 防止由于居中样式等造成拖动位置不对
+                    offset['margin-left'] = 0;
                 }
             }
             $(me.dragger).css(offset);

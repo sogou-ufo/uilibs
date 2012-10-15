@@ -1,0 +1,19 @@
+.uuiDialog-main{
+    position:absolute; 
+    top:50%;
+    left:50%;
+}
+.uuiDialog-main iframe{
+    width:100%;
+    height:100%;    
+    border:0;
+}
+.uuiDialog-head.uuiDialog-draggable{
+    cursor:move;    
+}
+.uuiDialog-head .uuiDialog-close{
+    float:right;    
+    width:20px;
+    height:20px;
+    background:#ccc;
+}
