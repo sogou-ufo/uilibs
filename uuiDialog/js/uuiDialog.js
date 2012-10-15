@@ -150,6 +150,10 @@
             titleChange && me.setTitle(); 
             // 更新foot
             footChange && me.setFoot(); 
+            // 更新样式
+            var css = {};
+            me.getStyle(css, me, options);
+            me.dialog.css(css);
         },
         setContent: function(options) {
             var html = options && options.html;
@@ -173,14 +177,14 @@
                 , opt = me.options;
             // 是否可以拖动
             if(opt.draggable) {
-                me.dragger = $('#uuiDialog-' + me.guid).uuiDrag({
+                me.dragger = me.dialog.uuiDrag({
                     trigger: '.uuiDialog-head',
                     enable: true,
                     range: document.body    
                 });
-                me.dragger.children('.uuiDialog-head').addClass('uuiDialog-draggable');
+                me.dragger.find('.uuiDialog-head').addClass('uuiDialog-draggable');
             } else if(me.dragger) {
-                me.dragger.uuiDrag({enable: false}).children('.uuiDialog-head').removeClass('uuiDialog-draggable');
+                me.dragger.uuiDrag({enable: false}).find('.uuiDialog-head').removeClass('uuiDialog-draggable');
             }
         },
         /**
@@ -233,31 +237,41 @@
             if(!me.dialog){
                 me.init();
             }
-            me.isshown = 1;
             me.getIndex();
             css = {
                'z-index': me.zIndex,
                display: 'block' 
             };
+            me.getStyle(css, me, opt);
+            me.dialog.css(css);
+            me.modal(opt.modal && opt.enable, opt.modal);
+            me.drag();
+            me.isshown = 1;
+            opt.dialogShow && opt.dialogShow(me);
+        },
+        /**
+         * 计算css
+         *
+         * @method getStyle
+         * @param {Object} css css对象
+         * */
+        getStyle: function(css, me, opt) {
             offset = $.UUIBase.offset(me.dialog);
             if(opt.left) {
                 css.left = opt.left + 'px';    
-            } else{
+            // 未展示的时候update，再打开，如果未配置left，top，默认让dialog居中
+            } else if(!me.isshown) {
                 css.left = '50%';
                 css['margin-left'] = -(opt.width || offset.width) / 2 + 'px';    
             }
             if(opt.top) {
                 css.top = opt.top + 'px';     
-            } else {
+            } else if(!me.isshown) {
                 css.top = '50%';
                 css['margin-top'] = -(opt.height || offset.height) / 2 + 'px';
             }
             opt.height && (css.height = opt.height + 'px');
             opt.width && (css.width = opt.width + 'px');
-            me.dialog.css(css);
-            me.modal(opt.modal && opt.enable, opt.modal);
-            me.drag();
-            opt.dialogShow && opt.dialogShow(me);
         },
         /**
          * 隐藏dialog

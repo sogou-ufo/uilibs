@@ -124,7 +124,7 @@ $('#uuiDialogBox2').uuiDialog({
     draggable: true,
     classPrefix: 'uui',
     content: 'hello world!',
-    titleText: '这是个alert' 
+    titleText: '这是个confirm' 
 });
 $('#uuiDialogBox1').uuiDialog({
     width: 250,
@@ -144,7 +144,7 @@ $('#uuiDialogBox').uuiDialog({
     draggable: true,
     classPrefix: 'uui',
     content: 'hello world!',
-    titleText: '这是个confirm' 
+    titleText: '这是个alert' 
 });
 $('#uuiDialogBox4').uuiDialog({
     width: 250,
