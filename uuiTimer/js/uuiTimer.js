@@ -15,7 +15,7 @@
     * @param {Number} options.refreshTime 刷新时间间隔
     * @param {Number} options.nowTime 初始化的当前时间戳
     * @param {function} options.diffTime() 返回服务器和客户端时间差
-    * @param {String} options.timeType  设置时间类型 'd'、'h'、'm'、's'、'ss'  日、时、分、秒、毫秒
+    * @param {String} options.timeType  设置时间类型 'd'、'h'、'm'、's'、'ms'  日、时、分、秒、毫秒
     * @param {function} options.getTimeTpl() 获取时间类型模版 
     * @param {function} options.onSettime(options) 设置时间回调,options返回针对tpl转化后的数组,this指向当前容器
     * @param {function} options.onEnd() 结束回调,this指向当前容器
@@ -43,7 +43,7 @@
                         h: 3600000,
                         m: 60000,
                         s: 1000,
-                        ss: 10
+                        ms: 10
                     };
                     break;
                 case 'h':
@@ -51,25 +51,25 @@
                         h: 3600000,
                         m: 60000,
                         s: 1000,
-                        ss: 10
+                        ms: 10
                     };
                     break;
                 case 'm':
                     tpl = {
                         m: 60000,
                         s: 1000,
-                        ss: 10
+                        ms: 10
                     };
                     break;
                 case 's':
                     tpl = {
                         s: 1000,
-                        ss: 10
+                        ms: 10
                     };
                     break;
-                case 'ss':
+                case 'ms':
                     tpl = {
-                        ss: 10
+                        ms: 10
                     };
                     break;
                 default:
@@ -78,7 +78,7 @@
                         h: 3600000,
                         m: 60000,
                         s: 1000,
-                        ss: 10
+                        ms: 10
                     }
                 };
                 return tpl;

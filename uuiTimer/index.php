@@ -105,7 +105,7 @@
 $('#timeA').uuiTimer({
 	container:$('#timeA span'),
 	onSettime : function(oTime){
-		this.innerHTML = oTime.d + '天' + oTime.h + '小时' + oTime.m + '分' + oTime.s + '秒' + oTime.ss + '毫秒'
+		this.innerHTML = oTime.d + '天' + oTime.h + '小时' + oTime.m + '分' + oTime.s + '秒' + oTime.ms + '毫秒'
 	},
 	onEnd : function(){
 		this.innerHTML = '结束'
@@ -115,7 +115,7 @@ $('#timeA').uuiTimer({
 $('#timeB').uuiTimer({
 	container:$('#timeB span'),
 	onSettime : function(oTime){
-		this.innerHTML = oTime.h + '小时' + oTime.m + '分' + oTime.s + '秒' + oTime.ss + '毫秒'
+		this.innerHTML = oTime.h + '小时' + oTime.m + '分' + oTime.s + '秒' + oTime.ms + '毫秒'
 	},
     timeType:'h',
     refreshTime:200,
@@ -127,7 +127,7 @@ $('#timeB').uuiTimer({
 $('#timeC').uuiTimer({
 	container:$('#timeC span'),
 	onSettime : function(oTime){
-		this.innerHTML = oTime.m + '分' + oTime.s + '秒' + oTime.ss + '毫秒'
+		this.innerHTML = oTime.m + '分' + oTime.s + '秒' + oTime.ms + '毫秒'
 	},
     timeType:'m',
     refreshTime:50,
@@ -139,7 +139,7 @@ $('#timeC').uuiTimer({
 
 $('#timeD').uuiTimer({
 	onSettime : function(oTime){
-		this.innerHTML = oTime.s + '秒' + oTime.ss + '毫秒'
+		this.innerHTML = oTime.s + '秒' + oTime.ms + '毫秒'
 	},
     timeType:'s',
     refreshTime:300,
@@ -150,9 +150,9 @@ $('#timeD').uuiTimer({
 });
 $('#timeE').uuiTimer({
 	onSettime : function(oTime){
-		this.innerHTML = oTime.ss + '毫秒'
+		this.innerHTML = oTime.ms + '毫秒'
 	},
-    timeType:'ss',
+    timeType:'ms',
     refreshTime:300,
 	onEnd : function(){
 		this.innerHTML = '结束'
