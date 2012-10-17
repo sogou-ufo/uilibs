@@ -104,8 +104,8 @@
             <textarea id="code" style="width:600px;height:400px;">
 $('#timeA').uuiTimer({
 	container:$('#timeA span'),
-	onSettime : function(aTime){
-		this.innerHTML = aTime[0]+'天'+aTime[1]+'时'+aTime[2]+'分'+aTime[3]+'秒'
+	onSettime : function(oTime){
+		this.innerHTML = oTime.d + '天' + oTime.h + '小时' + oTime.m + '分' + oTime.s + '秒' + oTime.ss + '毫秒'
 	},
 	onEnd : function(){
 		this.innerHTML = '结束'
@@ -114,10 +114,11 @@ $('#timeA').uuiTimer({
 });
 $('#timeB').uuiTimer({
 	container:$('#timeB span'),
-	onSettime : function(aTime){
-		this.innerHTML = aTime[0]+'天'+aTime[1]+'时'+aTime[2]+'分'+aTime[3]+'秒'+aTime[4]+'毫秒'
+	onSettime : function(oTime){
+		this.innerHTML = oTime.h + '小时' + oTime.m + '分' + oTime.s + '秒' + oTime.ss + '毫秒'
 	},
-    time:200,
+    timeType:'h',
+    refreshTime:200,
 	onEnd : function(){
 		this.innerHTML = '结束'
 	}
@@ -125,24 +126,51 @@ $('#timeB').uuiTimer({
 });
 $('#timeC').uuiTimer({
 	container:$('#timeC span'),
-	onSettime : function(aTime){
-		this.innerHTML = aTime[0]+'天'+aTime[1]+'时'+aTime[2]+'分'+aTime[3]+'秒'+aTime[4]+'毫秒'
+	onSettime : function(oTime){
+		this.innerHTML = oTime.m + '分' + oTime.s + '秒' + oTime.ss + '毫秒'
 	},
-    time:50,
+    timeType:'m',
+    refreshTime:50,
 	onEnd : function(){
 		this.innerHTML = '结束'
 	}
 
 });
+
+$('#timeD').uuiTimer({
+	onSettime : function(oTime){
+		this.innerHTML = oTime.s + '秒' + oTime.ss + '毫秒'
+	},
+    timeType:'s',
+    refreshTime:300,
+	onEnd : function(){
+		this.innerHTML = '结束'
+	}
+
+});
+$('#timeE').uuiTimer({
+	onSettime : function(oTime){
+		this.innerHTML = oTime.ss + '毫秒'
+	},
+    timeType:'ss',
+    refreshTime:300,
+	onEnd : function(){
+		this.innerHTML = '结束'
+	}
+
+});
+
 $('#timeA').uuiTimer().excUUICMD('init');
 $('#timeB').uuiTimer().excUUICMD('init');
 $('#timeC').uuiTimer().excUUICMD('init');
+$('#timeD').uuiTimer().excUUICMD('init');
+$('#timeE').uuiTimer().excUUICMD('init');
             </textarea>
             <input type=button value="run test" onclick="eval($('#code').attr('value'))"/>
             <p>test dom here:</p>
             <style type="text/css">
             #uuiTimerBox{padding:50px 0;}
-            #uuiTimerBox p{ height:20px; margin-bottom:10px; background:#FFFFFF}
+            #uuiTimerBox p{ height:20px; margin-bottom:10px; background:red; color:#FFFFFF; font-weight:700; padding:10px; }
             </style>
             <div id="uuiTimerBox" style="background:#fff;">
 		
@@ -156,7 +184,12 @@ $('#timeC').uuiTimer().excUUICMD('init');
                 	<span data-endtime="1360133890000"></span>
                 </p>
                
-                
+                <p id="timeD" data-endtime="1360033890000">
+
+                </p>
+                <p id="timeE" data-endtime="1360033890000">
+
+                </p>
 			
 			</div>
         </div>
