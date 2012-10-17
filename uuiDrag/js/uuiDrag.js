@@ -186,5 +186,6 @@
     };
     $.UUIBase.create('uuiDrag', uuiDrag);
     // 创建css
+	
     $($.UUIBase.init);
 })(jQuery);
