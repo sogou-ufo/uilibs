@@ -17,7 +17,7 @@
 	 * @param {Number} options.time 刷新时间间隔
 	 * @param {Boolean} options.theEnd 是否销毁定时器开关
 	 * @param {Number} options.nowTime 初始化的当前时间戳
-	 * @param {function} options.param() 返回服务器和客户端时间差
+	 * @param {function} options.diffTime() 返回服务器和客户端时间差
 	 * @param {function} options.onSettime(options) 设置时间回调,options返回针对tpl转化后的数组,this指向当前容器
 	 * @param {function} options.onEnd() 结束回调,this指向当前容器
 	 * @param {function} options.onDestroy() 销毁定时器回调，this指向构造函数
