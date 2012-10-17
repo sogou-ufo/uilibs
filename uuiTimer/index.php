@@ -102,11 +102,63 @@
             <br />
             <p>test code here:</p>
             <textarea id="code" style="width:600px;height:400px;">
-$('#uuiTimerBox').uuiTimer({});
+$('#timeA').uuiTimer({
+	container:$('#timeA span'),
+	onSettime : function(aTime){
+		this.innerHTML = aTime[0]+'天'+aTime[1]+'时'+aTime[2]+'分'+aTime[3]+'秒'
+	},
+	onEnd : function(){
+		this.innerHTML = '结束'
+	}
+
+});
+$('#timeB').uuiTimer({
+	container:$('#timeB span'),
+	onSettime : function(aTime){
+		this.innerHTML = aTime[0]+'天'+aTime[1]+'时'+aTime[2]+'分'+aTime[3]+'秒'+aTime[4]+'毫秒'
+	},
+    time:200,
+	onEnd : function(){
+		this.innerHTML = '结束'
+	}
+
+});
+$('#timeC').uuiTimer({
+	container:$('#timeC span'),
+	onSettime : function(aTime){
+		this.innerHTML = aTime[0]+'天'+aTime[1]+'时'+aTime[2]+'分'+aTime[3]+'秒'+aTime[4]+'毫秒'
+	},
+    time:50,
+	onEnd : function(){
+		this.innerHTML = '结束'
+	}
+
+});
+$('#timeA').uuiTimer().excUUICMD('init');
+$('#timeB').uuiTimer().excUUICMD('init');
+$('#timeC').uuiTimer().excUUICMD('init');
             </textarea>
             <input type=button value="run test" onclick="eval($('#code').attr('value'))"/>
             <p>test dom here:</p>
-            <div id="uuiTimerBox" style="background:#fff;padding:10px;">uuiTimer Test</div>
+            <style type="text/css">
+            #uuiTimerBox{padding:50px 0;}
+            #uuiTimerBox p{ height:20px; margin-bottom:10px; background:#FFFFFF}
+            </style>
+            <div id="uuiTimerBox" style="background:#fff;">
+		
+                <p id="timeA">
+                	<span data-endtime="1360133890000"></span>
+                </p>
+                <p id="timeB">
+                	<span data-endtime="1360133890000"></span>
+                </p>
+                <p id="timeC">
+                	<span data-endtime="1360133890000"></span>
+                </p>
+               
+                
+			
+			</div>
         </div>
     </div>
     <div class="footer">
