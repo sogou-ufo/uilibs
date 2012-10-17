@@ -89,9 +89,9 @@
         timeout: function() {
             var _this = this;
             var opts = _this.options; (function t() {
+				_this.setTimes();
                 window.setTimeout(function() {
                     if (opts.theEnd) return;
-                    _this.setTimes();
                     t();
                 },
                 opts.time);
