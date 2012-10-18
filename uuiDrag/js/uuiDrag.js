@@ -130,13 +130,16 @@
                 , opt = me.options
                 , offset = {}
                 , doffset = $(me.dragger).offset()
-                , tmp = me.lastE;
+                , tmp = me.lastE
+                , halfRange;
             me.lastE = $.UUIBase.getMousePos();
             tmp = tmp || me.lastPos;
+            // 触发器的一半
+            halfRange = opt.dragger == opt.trigger ? me.lastPos : $.UUIBase.offset($(me.dragger).find(opt.trigger));
             // 竖直方向可拖动
             if (opt.direction != 'h') {
                 // 如果限定了拖动范围，鼠标超出范围会将元素拖动到边界线上，在鼠标的位置为达到拖动元素的中间位置，不再响应拖动【竖直方向】
-                if(me.range && (me.lastE.top < me.range.top + me.lastPos.height / 2 && me.lastPos.top == 0 || (me.lastE.top > me.range.top + me.range.height + me.lastPos.height / 2 && me.lastPos.top == me.range.height))) {
+                if(me.range && (me.lastE.top < me.range.top + halfRange.height / 2 && me.lastPos.top == 0 || (me.lastE.top > me.range.top + me.range.height + halfRange.height / 2 && me.lastPos.top == me.range.height))) {
                 } else {
                     var y = me.lastE.top - tmp.top + me.lastPos.top;
                     if(opt.range) {
@@ -154,8 +157,9 @@
 
             // 水平防线可拖动
             if (opt.direction != 'v') {
+                console.log(halfRange.width);
                 // 如果限定了拖动范围，鼠标超出范围会将元素拖动到边界线上，在鼠标的位置为达到拖动元素的中间位置，不再响应拖动【水平方向】
-                if(me.range && (me.lastE.left < me.range.left + me.lastPos.width / 2 && me.lastPos.left == 0 || (me.lastE.left > me.range.left + me.range.width + me.lastPos.width / 2 && me.lastPos.left == me.range.width))) {
+                if(me.range && (me.lastE.left < me.range.left + halfRange.width / 2 && me.lastPos.left == 0 || (me.lastE.left > me.range.left + me.range.width + halfRange.width / 2 && me.lastPos.left == me.range.width))) {
                 } else {
                     var x = me.lastE.left - tmp.left + me.lastPos.left;
                     if(opt.range) {

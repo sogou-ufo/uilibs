@@ -25,6 +25,8 @@
         draggable: false,
         modal: true,    
         titleText: '',
+        width: 400,
+        height: 300,
         type: 'alert',
         content: '',
         foot: true,
@@ -95,9 +97,10 @@
                 , opt = me.options
                 , id = me.guid;
             return '<div id="uuiDialog-' + id + '" class="uuiDialog-main ' + opt.classPrefix + '-dialog" style="display:none;">' +
+                    '<div class="uuiDialog-background"><div class="uuiDialog-background-inner"></div></div>' +
                     // head
                     '<div class="uuiDialog-head ' + opt.classPrefix + '-dialog-head">' + 
-                    '<a class="uuiDialog-close" onmousedown="event.stopPropagation && event.stopPropagation(); event.cancelBubble = true; return false;" onclick="return false" href="#"></a>' +
+                    '<a class="uuiDialog-close" onmousedown="event.stopPropagation && event.stopPropagation(); event.cancelBubble = true; return false;" onclick="return false" href="#">X</a>' +
                     '<span class="uuiDialog-title">' + 
                     //opt.titleText +
                     '</span>' +
@@ -129,7 +132,7 @@
             switch(opt.type){
                 // iframe
                 case 'iframe':
-                    opt.contentHTML = '<iframe frameborder="no" src="' + opt.content + '"></iframe>';
+                    opt.contentHTML = '<iframe scrolling="no" frameborder="no" src="' + opt.content + '"></iframe>';
                 break;
                 case 'confirm':
                     opt.contentHTML = opt.content;
@@ -156,15 +159,20 @@
             me.dialog.css(css);
         },
         setContent: function(options) {
-            var html = options && options.html;
-            this.dialog.find('.uuiDialog-content').html(html || this.options.contentHTML);
+            var html = options && options.content
+                , iframe;
+            if(this.options.type == 'iframe' && (iframe = this.dialog.find('iframe')[0])) {
+                iframe.src = html || this.options.content;
+            } else {
+                this.dialog.find('.uuiDialog-content').html(html || this.options.contentHTML);
+            }
         },
         setTitle: function(options) {
-            var html = options && options.html;
+            var html = options && options.content;
             this.dialog.find('.uuiDialog-title').html(html || this.options.titleText);
         },
         setFoot: function(options) {
-            var html = options && options.html;
+            var html = options && options.content;
             this.dialog.find('.uuiDialog-foot').html(html || this.options.footHTML);
         },
         /**
@@ -244,9 +252,15 @@
             };
             me.getStyle(css, me, opt);
             me.dialog.css(css);
-            me.modal(opt.modal && opt.enable, opt.modal);
+            if(opt.shadow) {
+                me.dialog.addClass('uuiDialog-shadow');    
+            } else {
+                me.dialog.removeClass('uuiDialog-shadow');    
+            };
+            me.modal(opt.enable, opt.modal);
             me.drag();
             me.isshown = 1;
+            me.dialog.find('.uuiDialog-content').css('height', opt.height - me.dialog.find('.uuiDialog-head').outerHeight() - me.dialog.find('.uuiDialog-foot').outerHeight() -  (parseInt(me.dialog.find('.uuiDialog-content').css('padding-top'))>>0) -  (parseInt(me.dialog.find('.uuiDialog-content').css('padding-bottom'))>>0) + 'px');
             opt.dialogShow && opt.dialogShow(me);
         },
         /**
@@ -256,19 +270,20 @@
          * @param {Object} css css对象
          * */
         getStyle: function(css, me, opt) {
-            offset = $.UUIBase.offset(me.dialog);
+            var offset = $.UUIBase.offset(me.dialog)
+                , scroll = $.UUIBase.getScroll();
             if(opt.left) {
                 css.left = opt.left + 'px';    
             // 未展示的时候update，再打开，如果未配置left，top，默认让dialog居中
             } else if(!me.isshown) {
                 css.left = '50%';
-                css['margin-left'] = -(opt.width || offset.width) / 2 + 'px';    
+                css['margin-left'] = -(offset.width / 2 - scroll.left) + 'px';
             }
             if(opt.top) {
                 css.top = opt.top + 'px';     
             } else if(!me.isshown) {
                 css.top = '50%';
-                css['margin-top'] = -(opt.height || offset.height) / 2 + 'px';
+                css['margin-top'] = -(offset.height / 2 - scroll.top) + 'px';
             }
             opt.height && (css.height = opt.height + 'px');
             opt.width && (css.width = opt.width + 'px');

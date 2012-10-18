@@ -117,18 +117,16 @@
             <p>test code here:</p>
             <textarea id="code" style="width:600px;height:400px;">
 $('#uuiDialogBox2').uuiDialog({
-    width: 250,
-    height: 200,
     type: 'confirm',
     modal: true,
+    shadow: 1,
     draggable: true,
     classPrefix: 'uui',
     content: 'hello world!',
     titleText: '这是个confirm' 
 });
 $('#uuiDialogBox1').uuiDialog({
-    width: 250,
-    height: 200,
+    shadow: 1,
     type: 'iframe',
     modal: true,
     draggable: true,
@@ -137,19 +135,17 @@ $('#uuiDialogBox1').uuiDialog({
     titleText: '这是个iframe' 
 });
 $('#uuiDialogBox').uuiDialog({
-    width: 250,
-    height: 200,
     type: 'alert',
     modal: true,
+    shadow: 1,
     draggable: true,
     classPrefix: 'uui',
     content: 'hello world!',
     titleText: '这是个alert' 
 });
 $('#uuiDialogBox4').uuiDialog({
-    width: 250,
     id: '#a-dom-dialog',
-    height: 200,
+    shadow: 1,
     type: 'alert',
     modal: true,
     draggable: true,
