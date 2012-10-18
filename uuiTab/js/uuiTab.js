@@ -18,13 +18,15 @@
      *@param {Object} options.onInit       初始化回调
      *@example $('.uuiTab').uuiTab({enable:0})
      */
+     
+    var _cacheKeyTab = {};//保存所有触发键盘切换开关
     function uuiTab($this, options) {
         this.options = $.extend({
             title: $([]),
             content: $([]),
             index: 0,
             //默认索引
-            evt: 'mouseover',
+            evt: 'mouseover click',
             //触发事件
             className: '',
             //切换触发className
@@ -38,6 +40,10 @@
             onInit: function() {}
         },
         options || {});
+        
+        this.guid = $.UUIBase.guid();
+        _cacheKeyTab[this.guid] = false;
+        
     };
     uuiTab.prototype = {
         /**
@@ -135,14 +141,32 @@
                     $content.eq(i).hide();
                 }
             });
+            
             //绑定事件
-            this._destroy();
-            this.on($title, evt,
-            function() {
+            _this._destroy();
+            _this.on($title, evt, function(e) {
+                e.stopPropagation();
                 var index = $(this).index();
                 _this.play({
                     index: index
                 });
+               _this._setKeyTabClose();//关闭所有键盘监听
+               _cacheKeyTab[_this.guid] = true;//打开当前键盘监听
+               
+            });
+            _this.on($(document),{
+                keydown : function(e){
+                    if ((e.which == 37 || e.which == 38) && _cacheKeyTab[_this.guid]){
+                        e.preventDefault();
+                        _this.prev();
+                    }else if ((e.which == 39 || e.which == 40) && _cacheKeyTab[_this.guid]){
+                        e.preventDefault();
+                        _this.next();
+                    }
+                },
+                click : function(e){
+                    _this._setKeyTabClose();
+                }
             });
             options.onInit();
         },
@@ -154,6 +178,11 @@
          */
         update: function(options) {
             this.options = $.extend(this.options, options);
+        },
+        _setKeyTabClose : function(){
+            $.each(_cacheKeyTab,function(i){
+                _cacheKeyTab[i] = false;
+            });
         }
     };
     $.UUIBase.create('uuiTab', uuiTab);

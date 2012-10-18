@@ -66,13 +66,13 @@
 
             <p>test code here:</p>
             <textarea id="code" style="width:600px;height:400px;">
-            $('.uuiTab-main').uuiTab({
-                title:$('.uuiTab-main>ol>li'),
-                content:$('.uuiTab-main>ul>li'),
+            $('#uuiTab-main').uuiTab({
+                title:$('#uuiTab-main>ol>li'),
+                content:$('#uuiTab-main>ul>li'),
                 index:0,
                 className:'cur'
             });
-            $('.uuiTab-main').uuiTab().excUUICMD('init');
+            $('#uuiTab-main').uuiTab().excUUICMD('init');
             var _ = $('.uuiTab-main').getUUI('uuiTab')[0];
 
 
@@ -87,7 +87,13 @@
                 _.excUUICMD('next');
                 return false;
             })
-
+            $('#uuiTab-main2').uuiTab({
+                title:$('#uuiTab-main2>ol>li'),
+                content:$('#uuiTab-main2>ul>li'),
+                index:0,
+                className:'cur'
+            });
+            $('#uuiTab-main2').uuiTab().excUUICMD('init');
             </textarea>
             <input type=button value="run test" onclick="eval($('#code').attr('value'))"/>
             <p>test dom here:</p>
@@ -95,7 +101,23 @@
 
 
 
-            <div class="uuiTab-main">
+            <div class="uuiTab-main" id="uuiTab-main">
+                <ol>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                </ol>
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                </ul>
+            </div>
+            <a href="#" id="up">上一个</a>
+            <a href="#" id="down">下一个</a>
+            <div class="uuiTab-main" id="uuiTab-main2">
                 <ol>
                     <li>1</li>
                     <li>2</li>
@@ -114,8 +136,7 @@
 
 
 
-            <a href="#" id="up">上一个</a>
-            <a href="#" id="down">下一个</a>
+            
 
 
         </div>
