@@ -1,7 +1,11 @@
 .uuiDialog-main{
+    border:1px solid #777;
     position:absolute; 
     top:50%;
     left:50%;
+}
+.uuiDialog-main .uuiModal-main{
+    background:#fff;    
 }
 .uuiDialog-main iframe{
     width:100%;
@@ -12,7 +16,7 @@
     height:29px;
     border:1px solid #606060;
     background:#666;
-    color:#fff;
+    color:#ccc;
     line-height:29px;
     border-bottom:none;    
 }
@@ -22,6 +26,9 @@
 }
 .uuiDialog-head.uuiDialog-draggable{
     cursor:move;    
+}
+.uuiDialog-content{
+    padding:5px;    
 }
 .uuiDialog-foot{
     text-align:center;    
@@ -39,7 +46,9 @@
     margin:5px auto auto 4px;    
     height:100%;
     width:100%;
-    background: url(../img/uuiDialog-shadow.png) no-repeat right bottom;
+    background-image: url(../img/uuiDialog-shadow.png);
+    background-repeat:no-repeat;
+    background-position:right bottom;
     _background:none;
 }
 .uuiDialog-head .uuiDialog-close{
@@ -49,12 +58,27 @@
     line-height:20px;
     font-size:14px;
     font-weight:bold;
+    color:#ccc;
     display:inline;
     margin:4px 5px 0 0;
     width:20px;
     height:20px;
-    color:#ccc;
 }
 .uuiDialog-head .uuiDialog-close:hover{
     color:#fff;
+}
+.uuiDialog-foot .uuiDialog-close,.uuiDialog-foot .uuiDialog-confirm{
+    border-radius:5px;
+    border:1px solid #606060;
+    background:#ccc;
+    color:#333;
+    margin:0 10px 10px 0;
+    float:right;
+    display:inline;
+    line-height:14px;
+    text-decoration:none;
+    padding:5px;
+}
+.uuiDialog-foot .uuiDialog-close:hover,.uuiDialog-foot .uuiDialog-confirm:hover{
+    background:#bbb;
 }

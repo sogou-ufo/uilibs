@@ -85,7 +85,7 @@
     <?php if(isset($_GET['mobile'])){ ?>
     <script src="./build/js/mobile.uuiDialog.js"></script>
     <script src="../uuiDrag/build/js/mobile.uuiDrag.js"></script>
-    <script src="./uuiModal/build/js/mobile.uuiModal.js"></script>
+    <script src="../uuiModal/build/js/mobile.uuiModal.js"></script>
     <?php }else{ ?>
     <script src="./js/uuiDialog.js"></script>
     <script src="../uuiDrag/js/uuiDrag.js"></script>
@@ -94,6 +94,7 @@
     <link rel="stylesheet" href="../uuiModal/css/uuiModal.css" type="text/css"/>
     <?php }?>
     <link rel="stylesheet" href="http://ufo.sogou-inc.com/pingback/main.css" type="text/css" media="screen"/>
+    <!--umdebug-->
 </head>
 <body>
 <div class="header">
@@ -131,7 +132,7 @@ $('#uuiDialogBox1').uuiDialog({
     modal: true,
     draggable: true,
     classPrefix: 'uui',
-    content: 'http://123.sogou.com',
+    content: 'http://www.baidu.com',
     titleText: '这是个iframe' 
 });
 $('#uuiDialogBox').uuiDialog({
@@ -159,7 +160,7 @@ $('#uuiDialogBox4').uuiDialog({
             <p>多个dialog共存</p>
             <div id="a-dom-dialog" class="uuiDialog-main" style="display:none;">
                 <div class="uuiDialog-head">
-                    <a href="#" class="uuiDialog-close" onmousedown="event.stopPropagation && event.stopPropagation();event.cancelBubble=true;return false;" onclick="return false;">X</a>
+                    <a href="#" class="uuiDialog-close" onmousedown="$.UUIBase.stopPropagation(event)" ontouchstart="$.UUIBase.stopPropagation(event)" onclick="return false;">X</a>
                     <span class="uuiDialog-title"></span>
                 </div>
                 <div class="uuiDialog-content"></div>

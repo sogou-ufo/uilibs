@@ -80,6 +80,7 @@
     <?php }else{ ?>
     <script src="./js/uuiDrag.js"></script>
     <?php }?>
+    <!--umdebug-->
 </head>
 <body style="position:relative;">
     <div class="header">

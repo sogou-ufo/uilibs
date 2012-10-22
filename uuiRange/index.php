@@ -95,12 +95,14 @@
     <?php }?>
     <?php if(isset($_GET['mobile'])){ ?>
     <script src="./build/js/mobile.uuiRange.js"></script>
+    <script src="../uuiDrag/build/js/mobile.uuiDrag.js"></script>
     <?php }else{ ?>
     <script src="./js/uuiRange.js"></script>
     <script src="../uuiDrag/js/uuiDrag.js"></script>
     <link rel="stylesheet" href="../uuiDrag/css/uuiDrag.css" type="text/css"/>
     <?php }?>
     <link rel="stylesheet" href="http://ufo.sogou-inc.com/pingback/main.css" type="text/css" media="screen"/>
+    <!--umdebug-->
 </head>
 <body>
     <div class="header">

@@ -1,2 +1,2 @@
 window.uuiRely = window.uuiRely || {};
-uuiRely.uuiDialog = 'uui, uuiDialog, uuiDrag, uuiModal,';
+uuiRely.uuiDialog = 'uuiDialog, uuiDrag, uuiJQuery, uuiModal';

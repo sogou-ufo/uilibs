@@ -66,16 +66,18 @@
          * @param {event} e
          * */
         saveLast: function(e, dragger) {
+            // 拖动的时候阻止默认行为，防止在手机上，屏幕被drag
+            $.UUIBase.preventDefault(e);
             var me = this
                 , opt = me.options;
             if(!opt.enable) return;
             // 现在正在拖动的元素
             me.dragger = dragger;
             $(me.dragger).addClass('uuiDrag-dragger');
+            /**umlog(e.touches)**/
             me.lastE = $.UUIBase.getEPos(e);
             // 清空选中
             $.UUIBase.empty();
-            opt.dragable = true;
             // 计算range，主要是为了支持复杂的drag效果
             // range不是一个设置了left,top,width,height的区间
             if (opt.range && !(opt.range.left + 1)) {
@@ -86,6 +88,7 @@
             } else {
                 me.range = opt.range;     
             }
+            /**umlog(me.lastE)**/
             // 禁止选中
             $(document.body).addClass('uuiDrag-main-dragging');
             document.onselectstart = function() {return false};
@@ -101,9 +104,9 @@
                 clearInterval(me.timer);
                 me.timer = setInterval(function() {
                     me.setPos();    
-                    opt.dragMove && opt.dragMove(me);
                 }, 10);    
             }, 1);
+            opt.dragable = true;
             opt.dragStart && opt.dragStart(me);
         },
         /**
@@ -133,9 +136,16 @@
                 , tmp = me.lastE
                 , halfRange;
             me.lastE = $.UUIBase.getMousePos();
+            /**umlog(JSON.stringify(me.lastE))**/
+            /**umlog(JSON.stringify(tmp))**/
+            /**umlog(tmp.left == me.lastE.left && tmp.top == me.lastE.top)**/
+            if(!me.lastE || (tmp.left == me.lastE.left && tmp.top == me.lastE.top) || !opt.dragable) return;
+            /**umlog(2)**/
             tmp = tmp || me.lastPos;
             // 触发器的一半
             halfRange = opt.dragger == opt.trigger ? me.lastPos : $.UUIBase.offset($(me.dragger).find(opt.trigger));
+            //console.log('1 '  + me.lastPos);
+            //console.log('2 '  + me.lastE);
             // 竖直方向可拖动
             if (opt.direction != 'h') {
                 // 如果限定了拖动范围，鼠标超出范围会将元素拖动到边界线上，在鼠标的位置为达到拖动元素的中间位置，不再响应拖动【竖直方向】
@@ -157,7 +167,6 @@
 
             // 水平防线可拖动
             if (opt.direction != 'v') {
-                console.log(halfRange.width);
                 // 如果限定了拖动范围，鼠标超出范围会将元素拖动到边界线上，在鼠标的位置为达到拖动元素的中间位置，不再响应拖动【水平方向】
                 if(me.range && (me.lastE.left < me.range.left + halfRange.width / 2 && me.lastPos.left == 0 || (me.lastE.left > me.range.left + me.range.width + halfRange.width / 2 && me.lastPos.left == me.range.width))) {
                 } else {
@@ -177,7 +186,7 @@
             $(me.dragger).css(offset);
             me.lastPos.left = parseInt($(me.dragger).css('left')) >> 0;
             me.lastPos.top = parseInt($(me.dragger).css('top')) >> 0;
-            opt.dragEnd && opt.dragEnd(me);
+            opt.dragMove && opt.dragMove(me);
         },
         /**
          * 实例内部自我销毁的接口，可以不实现，如未实现，destroy操作会被定为到继承的medestroy上，但是不能销毁和dom的绑定，不建议调用，请使用$('.uuiDrag').uuiDrag({destroy: 1})

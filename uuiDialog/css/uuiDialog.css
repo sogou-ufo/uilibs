@@ -1,7 +1,11 @@
 .uuiDialog-main{
+    border:1px solid #777;
     position:absolute; 
     top:50%;
     left:50%;
+}
+.uuiDialog-main .uuiModal-main{
+    background:#fff;    
 }
 .uuiDialog-main iframe{
     width:100%;
@@ -42,7 +46,9 @@
     margin:5px auto auto 4px;    
     height:100%;
     width:100%;
-    background: url(../img/uuiDialog-shadow.png) no-repeat right bottom;
+    background-image: url(../img/uuiDialog-shadow.png);
+    background-repeat:no-repeat;
+    background-position:right bottom;
     _background:none;
 }
 .uuiDialog-head .uuiDialog-close{

@@ -100,7 +100,7 @@
                     '<div class="uuiDialog-background"><div class="uuiDialog-background-inner"></div></div>' +
                     // head
                     '<div class="uuiDialog-head ' + opt.classPrefix + '-dialog-head">' + 
-                    '<a class="uuiDialog-close" onmousedown="event.stopPropagation && event.stopPropagation(); event.cancelBubble = true; return false;" onclick="return false" href="#">X</a>' +
+                    '<a class="uuiDialog-close" on' + $.UUIBase.baseClass.eventName('mousedown') + '="uuiJQuery.UUIBase.stopPropagation(event);" onclick="return false" href="#">X</a>' +
                     '<span class="uuiDialog-title">' + 
                     //opt.titleText +
                     '</span>' +

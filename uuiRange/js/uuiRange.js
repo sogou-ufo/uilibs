@@ -30,7 +30,7 @@
             container: $this[0]
         };
         me.update(options || {});
-        me.rangerHTML = '<i style="position:absolute;" class="' + opt.classPrefix + '-ranger"></i>';
+        me.rangerHTML = '<i class="' + opt.classPrefix + '-ranger"></i>';
         me.durationHTML = '<div class="' + opt.classPrefix + '-duration"></div>';
         me.rangerParHTML = '<div class="' + opt.classPrefix + '-par"></div>';
         me.init();
@@ -82,6 +82,7 @@
                 , direction = opt.direction == 'v' ? 'top' : 'left';
             // 获取距离事件最近的拖动头
             $.each(me.ranger, function(i, ranger) {
+                /**umlog(ele)**/
                 if((!ele) || Math.abs((parseInt(ele.style[direction]) >> 0) - v) > Math.abs((parseInt(ranger.style[direction]) >> 0) - v)) {
                     ele = ranger;    
                 }
@@ -148,7 +149,7 @@
                     me.updataDuration();
                 },
                 dragEnd: function() {
-                    me.updataDuration();
+                    //me.updataDuration();
                 },
                 range: opt.container
             });

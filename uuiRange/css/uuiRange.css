@@ -4,11 +4,22 @@
 .uuiRange-par{
     width:100%;
     position:absolute;
+    z-index:1;
     top:0;
     left:0;
 }
+.uuiRange-container i{
+    z-index:2;
+    position:absolute;
+}
 .uuiRange-ranger,.uuiRange-duration{
     position:absolute;
+    z-index:0;
     top:0;
     left:0;
+    -moz-user-select: none; /*火狐*/
+    -webkit-user-select: none;  /*webkit浏览器*/
+    -ms-user-select: none;   /*IE10*/
+    -khtml-user-select: none; /*早期浏览器*/
+    user-select: none;
 }
