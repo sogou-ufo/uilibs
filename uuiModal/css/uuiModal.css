@@ -1,0 +1,15 @@
+.uuiModal-main{
+    position:absolute;    
+    background:#333;
+    width:100%;
+    left:0;
+    top:0;
+}
+.uuiModal-main iframe{
+    width:100%;
+    position:absolute;    
+    z-index:-1;
+    left:0;
+    top:0;
+    background:transparent;
+}
