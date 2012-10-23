@@ -50,21 +50,7 @@
         #uuiRangeBox{
             background:#fff;
         }
-        .uuiRange-container{
-            height: 400px;
-        }
-        .uuiRange-par{
-            height:400px;
-        }
-        .uuiRange-ranger{
-            height:40px;
-            width:400px;
-            background:darkGray;    
-        }
         .uuiRange-duration{
-            background:#ccc;
-            width:100%;
-            height:40px;
         }
     </style>
         <?php
@@ -126,7 +112,6 @@
             <p>test code here:</p>
             <textarea id="code" style="width:600px;height:400px;">
             $('#uuiRangeBox').uuiRange({
-                direction: 'v',
                 callback: function(duration){
                     $('#t2').html(duration.join('-'))
                 },
@@ -138,7 +123,7 @@
             <p>test dom here:</p>
             <input type="range" />
             <p>选择的区间是<span id="t2"></span></p>
-            <div id="uuiRangeBox" style="border:1px solid #ccc;width:400px;height:400px;">
+            <div id="uuiRangeBox" style="border:1px solid #ccc;width:400px;height:100px;padding:10px;padding-top:30px;">
 
             </div>
 

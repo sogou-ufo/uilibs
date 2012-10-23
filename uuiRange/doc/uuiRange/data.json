@@ -66,7 +66,7 @@
                             "type": "String|dom"
                         },
                         {
-                            "name": "dir",
+                            "name": "direction",
                             "description": "range的防线，h为水平，v为竖直，默认水平.",
                             "type": "String"
                         },
@@ -120,7 +120,13 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 92,
+            "line": 85,
+            "class": "$.fn.uuiRange",
+            "module": "uuiRange"
+        },
+        {
+            "file": "js/uuiRange.js",
+            "line": 93,
             "description": "设置拖动头的位置",
             "itemtype": "method",
             "name": "setDraggerPos",
@@ -143,7 +149,7 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 107,
+            "line": 108,
             "description": "更新duration样式，并执行回调",
             "itemtype": "method",
             "name": "updataDuration",
@@ -154,7 +160,7 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 128,
+            "line": 129,
             "description": "设置区间值，更新拖动头位置",
             "itemtype": "method",
             "name": "setRangeValue",
@@ -165,7 +171,7 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 157,
+            "line": 158,
             "description": "获取点击事件的位置",
             "itemtype": "method",
             "name": "getPos",
@@ -183,7 +189,7 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 174,
+            "line": 175,
             "description": "计算父容器和拖动头的宽度，并进行转换",
             "itemtype": "method",
             "name": "exchangeRate",
@@ -194,7 +200,7 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 188,
+            "line": 189,
             "description": "获取选中区间，并转换为range内的有效值",
             "itemtype": "method",
             "name": "getDuration",
@@ -209,14 +215,14 @@
         },
         {
             "file": "js/uuiRange.js",
-            "line": 205,
+            "line": 206,
             "description": "更新实例实现，请通过$('.uuiRange').uuiRange({xxxx})调用",
             "itemtype": "method",
             "name": "update",
             "params": [
                 {
                     "name": "options",
-                    "description": "参数配置，可以update参数dir, range, duration, callback.",
+                    "description": "参数配置，可以update参数direction, range, duration, callback.",
                     "type": "Object"
                 }
             ],

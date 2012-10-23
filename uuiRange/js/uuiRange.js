@@ -183,8 +183,8 @@
                 , opt = me.options
                 , direction = opt.direction;
             me.containerOffset = $(me.rangeContainer).offset();
-            me.containerWidth = direction == 'v' ? $(me.rangeContainer).height() : $(me.rangeContainer).width();
-            me.rangerWidth = direction == 'v' ? me.ranger.height() / 2 : me.ranger.width() / 2;
+            me.containerWidth = direction == 'v' ? $(me.rangeContainer).outerHeight() : $(me.rangeContainer).outerWidth();
+            me.rangerWidth = direction == 'v' ? me.ranger.outerHeight() / 2 : me.ranger.outerWidth() / 2;
         },
         /**
          * 获取选中区间，并转换为range内的有效值

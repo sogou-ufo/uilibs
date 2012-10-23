@@ -129,7 +129,19 @@
         },
         {
             "file": "js/uuiDrag.js",
-            "line": 109,
+            "line": 77,
+            "class": "$.fn.uuiDrag",
+            "module": "uuiDrag"
+        },
+        {
+            "file": "js/uuiDrag.js",
+            "line": 91,
+            "class": "$.fn.uuiDrag",
+            "module": "uuiDrag"
+        },
+        {
+            "file": "js/uuiDrag.js",
+            "line": 112,
             "description": "更新实例实现，请通过$('.uuiDrag').uuiDrag({xxxx})调用",
             "itemtype": "method",
             "name": "update",
@@ -148,7 +160,7 @@
         },
         {
             "file": "js/uuiDrag.js",
-            "line": 121,
+            "line": 124,
             "description": "事件发生时候更新被拖动元素位置",
             "itemtype": "method",
             "name": "setPos",
@@ -159,7 +171,31 @@
         },
         {
             "file": "js/uuiDrag.js",
-            "line": 174,
+            "line": 139,
+            "class": "$.fn.uuiDrag",
+            "module": "uuiDrag"
+        },
+        {
+            "file": "js/uuiDrag.js",
+            "line": 140,
+            "class": "$.fn.uuiDrag",
+            "module": "uuiDrag"
+        },
+        {
+            "file": "js/uuiDrag.js",
+            "line": 141,
+            "class": "$.fn.uuiDrag",
+            "module": "uuiDrag"
+        },
+        {
+            "file": "js/uuiDrag.js",
+            "line": 143,
+            "class": "$.fn.uuiDrag",
+            "module": "uuiDrag"
+        },
+        {
+            "file": "js/uuiDrag.js",
+            "line": 191,
             "description": "实例内部自我销毁的接口，可以不实现，如未实现，destroy操作会被定为到继承的medestroy上，但是不能销毁和dom的绑定，不建议调用，请使用$('.uuiDrag').uuiDrag({destroy: 1})",
             "itemtype": "method",
             "name": "destroy",
