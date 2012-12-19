@@ -161,6 +161,7 @@
         setContent: function(options) {
             var html = options && options.content
                 , iframe;
+            if(!html) return;
             if(this.options.type == 'iframe' && (iframe = this.dialog.find('iframe')[0])) {
                 iframe.src = html || this.options.content;
             } else {
