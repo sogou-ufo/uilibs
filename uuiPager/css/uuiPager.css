@@ -1,0 +1,45 @@
+.uuiPager-main{
+    margin:30px auto 75px; 
+}
+.uuiPager-pager{
+    margin:0 auto;
+    text-align:center;    
+    line-height: 26px;   
+    font: 12px/1.5 Tahoma,'Microsoft Yahei','Simsun'; 
+    color: #444;    
+}
+.uuiPager-pager   a{   
+    border: 1px solid #C2D5E3;    
+    overflow: hidden;
+    text-decoration: none;
+    margin-left:10px;
+    display:inline-block;
+    float:left;
+}
+
+.uuiPager-pre{
+    background-color:white;
+    padding-left: 25px;
+    background: url(../image/uuiPager-pre.gif) no-repeat white;
+    background-position: 10px 50%;
+    padding: 6px 6px 6px 23px;
+}
+.uuiPager-more,.uuiPager-normal{
+    background-color:white;
+    padding: 6px 6px;
+}
+.uuiPager-next{
+    background-color:white;
+    padding-right: 25px;
+    background: url(../image/uuiPager-next.gif) white no-repeat;
+    background-position: 90% 50%;
+    padding: 6px 23px 6px 6px;
+}
+.uuiPager-current{
+    background-color:#E5EDF2;
+    padding: 6px 6px;
+    font-weight: bold;
+}
+.uuiPager-pager  a:hover{   
+    background-color:#E5EDF2;
+}
