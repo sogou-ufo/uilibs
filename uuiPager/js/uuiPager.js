@@ -131,10 +131,8 @@
 			var range = this.getRange();
 			this.appendRange(range.start, range.end);
 			that=this;
-            //this.on(jQueryThis, eventName, query, handler)
-            this.on(this.opt.target + " a", "",
+            this.on($(this.opt.target + " a"), "click",
             function() {
-			//$(this.opt.target + " a").on("click","",function() {
 				var className = $(this).attr("class");
 				if(className == that.opt.prePageClassName) {
                     --that.opt.currentPage;
