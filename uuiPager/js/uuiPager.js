@@ -1,7 +1,7 @@
 /**
  * 分页组件
  * @module uuiPager
- * @author sogou ufo team
+ * @author tanngliang
  **/
 (function($) {
     /**
@@ -15,9 +15,15 @@
      * @param {Number} options.pageSize 每页显示的页码数，如pageSize为9时，初始页面能够显示1-9页和最末页的页码，其他页码需要往下翻才能看见.
      * @param {String} options.nextPage 下一页.
      * @param {String} options.prePage 上一页.
-     * @example $('.uuiPager').uuiPager({enable:0})
+     * @param {String} options.prePageClassName 上一页的ClassName.
+     * @param {String} options.nextPageClassName 下一页的ClassName.
+     * @param {String} options.currentPageClassName 当前页的ClassName.
+     * @param {String} options.normalPageClassName 普通页的ClassName.
+     * @param {String} options.morePageClassName 省略符的ClassName.
+     * @param {Function} options.pageChange 页码改变时的响应函数.
+     * @example $('.uuiPager').uuiPager({enable:0}).
      * */
-    // default setting
+    // 默认配置
     var _options = {
         currentPage: 1,
         totalPage: 1,
@@ -27,62 +33,63 @@
     };
     
     function uuiPager($this, options) {
-        var me = this;
-        // extend default setting        
-        me.opt = {
+        // 拓展默认配置        
+        this.opt = {
             currentPage: Math.max(options.currentPage, 1),
             totalPage: Math.max(options.totalPage, 1),
             pageSize: options.pageSize || 10,
             nextPage: options.nextPage || _options.nextPage,
             prePage: options.prePage || _options.prePage,    
             target: options.target,
-            prePageCss: options.prePageCss,
-            nextPageCss:  options.nextPageCss,
-            currentPageCss:  options.currentPageCss,
-            morePageCss:  options.morePageCss,
-            normalPageCss:  options.normalPageCss,
-            process: options.process
+            prePageClassName: options.prePageClassName,
+            nextPageClassName: options.nextPageClassName,
+            currentPageClassName: options.currentPageClassName,
+            morePageClassName: options.morePageClassName,
+            normalPageClassName: options.normalPageClassName,
+            pageChange: options.pageChange
         },
-        // links setting 
-        me.link = {
-           start: "<a class=" + me.opt.prePageCss + " href='#'>" + me.opt.prePage + "</a>",
-           end: "<a class=" + me.opt.nextPageCss + " href='#'>" + me.opt.nextPage + "</a>",
-           first: "<a class=" + me.opt.normalPageCss + " href='#'>" + 1 + "</a>",
-           last: "<a class=" + me.opt.normalPageCss + " href='#'>" + me.opt.totalPage + "</a>",
-           more: "<a class=" + me.opt.morePageCss + " >" + "..." + "</a>"
+        //生成链接
+        this.returnLink = function(classaName, href, innerHTML) {
+            if (href == "") return  $("<span class=" + classaName + " >" + innerHTML + "</span>");
+            else return  $("<a class=" + classaName + " href=" +  href +">" + innerHTML + "</a>");        
         },
-        me.update(me.opt);
+        // 链接配置 
+        this.link = {
+           start: this.returnLink(this.opt.prePageClassName, "#", this.opt.prePage),
+           end: this.returnLink(this.opt.nextPageClassName, "#", this.opt.nextPage),
+           first: this.returnLink(this.opt.normalPageClassName, "#", 1),
+           last: this.returnLink(this.opt.normalPageClassName, "#", this.opt.totalPage),
+           more: this.returnLink(this.opt.morePageClassName, "", "...")
+        },
+        this.update(this.opt);
     };
     uuiPager.prototype = {
 		/**
-         * @method getInterval
-		 * Calculate start and end point of pagination pages depending on 
-		 * currentPage, pageSize and totalPage.
+         * 计算页码的起始和结束值
+         * @method getRange
 		 * @returns {Array}
 		 */
-		getInterval: function(currentPage) {
+		getRange: function() {
 			var ne_half = Math.floor(this.opt.pageSize/2);
 			var upper_limit = this.opt.totalPage - this.opt.pageSize;
-			var start = currentPage > ne_half ? Math.max( Math.min(currentPage - ne_half, upper_limit), 1 ) : 1;
-			var end = currentPage > ne_half ? Math.min(Number(currentPage) + Number(ne_half), this.opt.totalPage) : Math.min(this.opt.pageSize, this.opt.totalPage);
+			var start = this.opt.currentPage > ne_half ? Math.max( Math.min(this.opt.currentPage - ne_half, upper_limit), 1 ) : 1;
+			var end = this.opt.currentPage > ne_half ? Math.min(parseInt(this.opt.currentPage) + parseInt(ne_half), this.opt.totalPage) : Math.min(this.opt.pageSize, this.opt.totalPage);
 			return {start: start, end: end};
 		},
         /**
          * 返回创建的节点
 		 * @param {Number} page_id 
-		 * @param {Number} current_page 
-		 * @returns {object} object containing the node
+		 * @returns {object} 返回创建的链接
 		 */
-        createLink:function(page_id, current_page) {
-			var lnk, np = this.opt.totalPage;
+        createLink: function(page_id) {
+			var lnk, np = this.opt.totalPage, current_page = this.opt.currentPage;
 			page_id = page_id < 1 ? 1 : (page_id < np ? page_id : np);
 			if(page_id == current_page) {
-				lnk = $("<a class=" + this.opt.currentPageCss + ">" + page_id + "</a>");
+				return this.returnLink(this.opt.currentPageClassName, "", page_id); 
 			}
 			else {
-				lnk = $("<a class=" + this.opt.normalPageCss + ">" + page_id + "</a>").attr('href', "#");
+                return this.returnLink(this.opt.normalPageClassName, "#", page_id); 
 			}
-			return lnk;
 		},
         /**
          * 给container添加子节点
@@ -91,21 +98,21 @@
 		 * @param {Number} start 
 		 * @param {Number} end 
 		 */
-		appendRange:function(container, current_page, start, end) {
-			var i;
+		appendRange:function(start, end) {
+			var i, container = $(this.opt.target);
 			if(this.opt.currentPage != 1) {
                 $(this.link.start).appendTo(container);
             }			
 			if(start != 1) {
 				$(this.link.first).appendTo(container);	
 				if(start > 2) {
-					$(this.link.more).appendTo(container);	
+					$(this.returnLink(this.opt.morePageClassName, "", "...")).appendTo(container);	
 				}
 			}
 			for(i = start; i<= end; i++) {
-				this.createLink(i, current_page).appendTo(container);
+				this.createLink(i).appendTo(container);
 			}
-			if(Number(this.opt.totalPage) - Number(end) >= Math.floor(this.opt.pageSize/2)) {
+			if(parseInt(this.opt.totalPage) - parseInt(end) >= Math.floor(this.opt.pageSize/2)) {
 				$(this.link.more).appendTo(container);				
 			}
 			if(end != this.opt.totalPage){
@@ -119,26 +126,29 @@
          * 翻页操作          
 		 * @param {Number} currentPage
 		 */
-		selectPage:function(currentPage) {
+		selectPage:function() {
 			$(this.opt.target).empty();
-			var interval = this.getInterval(currentPage);
-			this.appendRange($(this.opt.target), currentPage, interval.start, interval.end);
+			var range = this.getRange();
+			this.appendRange(range.start, range.end);
 			that=this;
-			$(this.opt.target + " a").on("click","",function() {
+            //this.on(jQueryThis, eventName, query, handler)
+            this.on(this.opt.target + " a", "",
+            function() {
+			//$(this.opt.target + " a").on("click","",function() {
 				var className = $(this).attr("class");
-				if(className == that.opt.prePageCss) {
+				if(className == that.opt.prePageClassName) {
                     --that.opt.currentPage;
-                    that.selectPage(that.opt.currentPage);
+                    that.selectPage();
                 }
-				else if(className == that.opt.nextPageCss) {
+				else if(className == that.opt.nextPageClassName) {
                     ++that.opt.currentPage; 
-                    that.selectPage(that.opt.currentPage)
+                    that.selectPage();
                 }
-				else if(className == that.opt.normalPageCss) {
+				else if(className == that.opt.normalPageClassName) {
                     that.opt.currentPage = this.innerHTML; 
-                    that.selectPage(this.innerHTML);
+                    that.selectPage();
                 }
-				that.opt.process(that.opt.currentPage);
+				that.opt.pageChange(that.opt.currentPage);
 				return false;		
 			});
 		},
@@ -147,7 +157,7 @@
          * @method update
          * */
         update: function(options) {
-            this.selectPage(options.currentPage);
+            this.selectPage();
         },
         /**
          * @method destroy

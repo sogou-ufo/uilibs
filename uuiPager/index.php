@@ -74,14 +74,14 @@
                     nextPage: "",
                     prePage: "",
                     target: "#uuiPager",
-                    prePageCss: "uuiPager-pre",
-                    nextPageCss: "uuiPager-next",
-                    currentPageCss: "uuiPager-current",
-                    morePageCss: "uuiPager-more",
-                    normalPageCss: "uuiPager-normal",
-                    process: process
+                    prePageClassName: "uuiPager-pre",
+                    nextPageClassName: "uuiPager-next",
+                    currentPageClassName: "uuiPager-current",
+                    morePageClassName: "uuiPager-more",
+                    normalPageClassName: "uuiPager-normal",
+                    pageChange: pageChange
                 }); 
-                function process(page_id) {
+                function pageChange(page_id) {
                     alert(page_id);
                 }
             </textarea>
