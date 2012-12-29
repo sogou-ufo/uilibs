@@ -1,9 +1,10 @@
 /**
  * 分页组件
  * @module uuiPager
- * @author tanngliang
+ * @author sogou ufo team
  **/
 (function($) {
+
     /**
      * 实现元素的可拖动功能
      * @class $.fn.uuiPager
@@ -15,15 +16,9 @@
      * @param {Number} options.pageSize 每页显示的页码数，如pageSize为9时，初始页面能够显示1-9页和最末页的页码，其他页码需要往下翻才能看见.
      * @param {String} options.nextPage 下一页.
      * @param {String} options.prePage 上一页.
-     * @param {String} options.prePageClassName 上一页的ClassName.
-     * @param {String} options.nextPageClassName 下一页的ClassName.
-     * @param {String} options.currentPageClassName 当前页的ClassName.
-     * @param {String} options.normalPageClassName 普通页的ClassName.
-     * @param {String} options.morePageClassName 省略符的ClassName.
-     * @param {Function} options.pageChange 页码改变时的响应函数.
-     * @example $('.uuiPager').uuiPager({enable:0}).
+     * @example $('.uuiPager').uuiPager({enable:0})
      * */
-    // 默认配置
+    // default setting
     var _options = {
         currentPage: 1,
         totalPage: 1,
@@ -33,63 +28,62 @@
     };
     
     function uuiPager($this, options) {
-        // 拓展默认配置        
-        this.opt = {
+        var me = this;
+        // extend default setting        
+        me.opt = {
             currentPage: Math.max(options.currentPage, 1),
             totalPage: Math.max(options.totalPage, 1),
             pageSize: options.pageSize || 10,
             nextPage: options.nextPage || _options.nextPage,
             prePage: options.prePage || _options.prePage,    
             target: options.target,
-            prePageClassName: options.prePageClassName,
-            nextPageClassName: options.nextPageClassName,
-            currentPageClassName: options.currentPageClassName,
-            morePageClassName: options.morePageClassName,
-            normalPageClassName: options.normalPageClassName,
-            pageChange: options.pageChange
+            prePageCss: options.prePageCss,
+            nextPageCss:  options.nextPageCss,
+            currentPageCss:  options.currentPageCss,
+            morePageCss:  options.morePageCss,
+            normalPageCss:  options.normalPageCss,
+            process: options.process
         },
-        //生成链接
-        this.returnLink = function(classaName, href, innerHTML) {
-            if (href == "") return  $("<span class=" + classaName + " >" + innerHTML + "</span>");
-            else return  $("<a class=" + classaName + " href=" +  href +">" + innerHTML + "</a>");        
+        // links setting 
+        me.link = {
+           start: "<a class=" + me.opt.prePageCss + " href='#'>" + me.opt.prePage + "</a>",
+           end: "<a class=" + me.opt.nextPageCss + " href='#'>" + me.opt.nextPage + "</a>",
+           first: "<a class=" + me.opt.normalPageCss + " href='#'>" + 1 + "</a>",
+           last: "<a class=" + me.opt.normalPageCss + " href='#'>" + me.opt.totalPage + "</a>",
+           more: "<a class=" + me.opt.morePageCss + " >" + "..." + "</a>"
         },
-        // 链接配置 
-        this.link = {
-           start: this.returnLink(this.opt.prePageClassName, "#", this.opt.prePage),
-           end: this.returnLink(this.opt.nextPageClassName, "#", this.opt.nextPage),
-           first: this.returnLink(this.opt.normalPageClassName, "#", 1),
-           last: this.returnLink(this.opt.normalPageClassName, "#", this.opt.totalPage),
-           more: this.returnLink(this.opt.morePageClassName, "", "...")
-        },
-        this.update(this.opt);
+        me.update(me.opt);
     };
     uuiPager.prototype = {
 		/**
-         * 计算页码的起始和结束值
-         * @method getRange
+         * @method getInterval
+		 * Calculate start and end point of pagination pages depending on 
+		 * currentPage, pageSize and totalPage.
 		 * @returns {Array}
 		 */
-		getRange: function() {
+		getInterval: function(currentPage) {
 			var ne_half = Math.floor(this.opt.pageSize/2);
 			var upper_limit = this.opt.totalPage - this.opt.pageSize;
-			var start = this.opt.currentPage > ne_half ? Math.max( Math.min(this.opt.currentPage - ne_half, upper_limit), 1 ) : 1;
-			var end = this.opt.currentPage > ne_half ? Math.min(parseInt(this.opt.currentPage) + parseInt(ne_half), this.opt.totalPage) : Math.min(this.opt.pageSize, this.opt.totalPage);
+			var start = currentPage > ne_half ? Math.max( Math.min(currentPage - ne_half, upper_limit), 1 ) : 1;
+			var end = currentPage > ne_half ? Math.min(Number(currentPage) + Number(ne_half), this.opt.totalPage) : Math.min(this.opt.pageSize, this.opt.totalPage);
 			return {start: start, end: end};
 		},
         /**
          * 返回创建的节点
 		 * @param {Number} page_id 
-		 * @returns {object} 返回创建的链接
+		 * @param {Number} current_page 
+		 * @returns {object} object containing the node
 		 */
-        createLink: function(page_id) {
-			var lnk, np = this.opt.totalPage, current_page = this.opt.currentPage;
+        createLink:function(page_id, current_page) {
+			var lnk, np = this.opt.totalPage;
 			page_id = page_id < 1 ? 1 : (page_id < np ? page_id : np);
 			if(page_id == current_page) {
-				return this.returnLink(this.opt.currentPageClassName, "", page_id); 
+				lnk = $("<a class=" + this.opt.currentPageCss + ">" + page_id + "</a>");
 			}
 			else {
-                return this.returnLink(this.opt.normalPageClassName, "#", page_id); 
+				lnk = $("<a class=" + this.opt.normalPageCss + ">" + page_id + "</a>").attr('href', "#");
 			}
+			return lnk;
 		},
         /**
          * 给container添加子节点
@@ -98,21 +92,21 @@
 		 * @param {Number} start 
 		 * @param {Number} end 
 		 */
-		appendRange:function(start, end) {
-			var i, container = $(this.opt.target);
+		appendRange:function(container, current_page, start, end) {
+			var i;
 			if(this.opt.currentPage != 1) {
                 $(this.link.start).appendTo(container);
             }			
 			if(start != 1) {
 				$(this.link.first).appendTo(container);	
 				if(start > 2) {
-					$(this.returnLink(this.opt.morePageClassName, "", "...")).appendTo(container);	
+					$(this.link.more).appendTo(container);	
 				}
 			}
 			for(i = start; i<= end; i++) {
-				this.createLink(i).appendTo(container);
+				this.createLink(i, current_page).appendTo(container);
 			}
-			if(parseInt(this.opt.totalPage) - parseInt(end) >= Math.floor(this.opt.pageSize/2)) {
+			if(Number(this.opt.totalPage) - Number(end) >= Math.floor(this.opt.pageSize/2)) {
 				$(this.link.more).appendTo(container);				
 			}
 			if(end != this.opt.totalPage){
@@ -126,27 +120,26 @@
          * 翻页操作          
 		 * @param {Number} currentPage
 		 */
-		selectPage:function() {
+		selectPage:function(currentPage) {
 			$(this.opt.target).empty();
-			var range = this.getRange();
-			this.appendRange(range.start, range.end);
+			var interval = this.getInterval(currentPage);
+			this.appendRange($(this.opt.target), currentPage, interval.start, interval.end);
 			that=this;
-            this.on($(this.opt.target + " a"), "click",
-            function() {
+			$(this.opt.target + " a").on("click","",function() {
 				var className = $(this).attr("class");
-				if(className == that.opt.prePageClassName) {
+				if(className == that.opt.prePageCss) {
                     --that.opt.currentPage;
-                    that.selectPage();
+                    that.selectPage(that.opt.currentPage);
                 }
-				else if(className == that.opt.nextPageClassName) {
+				else if(className == that.opt.nextPageCss) {
                     ++that.opt.currentPage; 
-                    that.selectPage();
+                    that.selectPage(that.opt.currentPage)
                 }
-				else if(className == that.opt.normalPageClassName) {
+				else if(className == that.opt.normalPageCss) {
                     that.opt.currentPage = this.innerHTML; 
-                    that.selectPage();
+                    that.selectPage(this.innerHTML);
                 }
-				that.opt.pageChange(that.opt.currentPage);
+				that.opt.process(that.opt.currentPage);
 				return false;		
 			});
 		},
@@ -155,7 +148,7 @@
          * @method update
          * */
         update: function(options) {
-            this.selectPage();
+            this.selectPage(options.currentPage);
         },
         /**
          * @method destroy

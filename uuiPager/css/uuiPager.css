@@ -8,7 +8,7 @@
     font: 12px/1.5 Tahoma,'Microsoft Yahei','Simsun'; 
     color: #444;    
 }
-.uuiPager-pager   a, .uuiPager-pager   span{   
+.uuiPager-pager   a{   
     border: 1px solid #C2D5E3;    
     overflow: hidden;
     text-decoration: none;
